@@ -1,0 +1,24 @@
+.swiper {
+  height: 100%;
+  width: 100%;
+  overflow: hidden !important;
+}
+
+.swiper-slide {
+  transition: .2s;
+  filter: blur(0rem) brightness(1);
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.swiper-slide:not(.swiper-slide-visible) {
+  filter: blur(.25rem) brightness(.75);
+}
+
+.swiper-slide-shadow {
+  background: none !important;
+}
+

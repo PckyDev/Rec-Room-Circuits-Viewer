@@ -1,0 +1,23 @@
+.swiper-vertical {
+  max-height: 100vh;
+}
+
+.swiper-nav-standalone .swiper-button-prev, .swiper-nav-standalone .swiper-button-next {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.swiper-nav-standalone .swiper-button-prev:after, .swiper-nav-standalone .swiper-button-next:after {
+  content: "";
+}
+
+.swiper-nav-custom .swiper-button-prev:after, .swiper-nav-custom .swiper-button-next:after {
+  content: "";
+}
+

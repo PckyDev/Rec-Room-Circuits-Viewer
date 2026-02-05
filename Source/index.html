@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>RR Circuits Viewer</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bss-overrides.css">
+    <link rel="stylesheet" href="assets/css/swiper.min.css">
+    <link rel="stylesheet" href="assets/css/chip-layout.css">
+    <link rel="stylesheet" href="assets/css/chip-versions.css">
+    <link rel="stylesheet" href="assets/css/other.css">
+    <link rel="stylesheet" href="assets/css/port-colors.css">
+    <link rel="stylesheet" href="assets/css/port-sizes.css">
+    <link rel="stylesheet" href="assets/css/port-versions.css">
+</head>
+
+<body>
+    <section style="display: flex;justify-content: center;align-items: center;height: 100vh;">
+        <div class="swiper" id="swiper-1" data-bss-swiper="{&quot;direction&quot;:&quot;horizontal&quot;,&quot;rewind&quot;:true,&quot;autoplay&quot;:{&quot;pauseOnMouseEnter&quot;:true},&quot;effect&quot;:&quot;cards&quot;,&quot;pagination&quot;:{&quot;el&quot;:&quot;.swiper-pagination&quot;,&quot;type&quot;:&quot;bullets&quot;,&quot;clickable&quot;:true},&quot;navigation&quot;:{&quot;nextEl&quot;:&quot;.swiper-button-next&quot;,&quot;prevEl&quot;:&quot;.swiper-button-prev&quot;}}">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="chip c-object">
+                        <div class="header">
+                            <p class="title">Interaction Volume</p>
+                            <div class="port p-object">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="ports">
+                            <div class="section">
+                                <div class="input"></div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">On Use or Hold Completed</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">On Use or Hold Completed</p>
+                                        <div class="port p-player">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input"></div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">On Hold Cancelled</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input"></div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">On Hold Start</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input"></div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">On Hold End</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input"></div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">Hold Progress from 0 to 1</p>
+                                        <div class="port p-float">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input"></div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">On Hover Start</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input"></div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">On Hover End</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input">
+                                    <div class="port-container">
+                                        <p class="name">Set Locked</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Is Locked</p>
+                                        <div class="port p-bool">
+                                            <p>True</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">Set Locked</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Is Locked</p>
+                                        <div class="port p-bool">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="input">
+                                    <div class="port-container">
+                                        <p class="name">Set Interaction Prompt</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Interaction Prompt</p>
+                                        <div class="port p-string">
+                                            <p>""</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">Set Interaction Prompt</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Interaction Prompt</p>
+                                        <div class="port p-string">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer"></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="chip">
+                        <div class="header">
+                            <p class="title">For Each</p>
+                            <div class="port p-object">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="ports">
+                            <div class="section">
+                                <div class="input">
+                                    <div class="port-container">
+                                        <p class="name">&nbsp;</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Items</p>
+                                        <div class="port p-any list">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">Loop</p>
+                                        <div class="port p-exec">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Item</p>
+                                        <div class="port p-any">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Done</p>
+                                        <div class="port p-exec">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer"></div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="chip">
+                        <div class="header">
+                            <p class="title">Raycast</p>
+                            <div class="port p-object">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="ports">
+                            <div class="section">
+                                <div class="input">
+                                    <div class="port-container">
+                                        <p class="name">Start Position</p>
+                                        <div class="port p-vector3">
+                                            <p>(0.000, 0.000, 0.000)</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Direction</p>
+                                        <div class="port p-vector3">
+                                            <p>(0.000, 0.000, 0.000)</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Max Distance (m)</p>
+                                        <div class="port p-float">
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="output">
+                                    <div class="port-container">
+                                        <p class="name">Hit</p>
+                                        <div class="port p-bool">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Player</p>
+                                        <div class="port p-player">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Object</p>
+                                        <div class="port p-object">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Distance</p>
+                                        <div class="port p-float">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Hit Position</p>
+                                        <div class="port p-vector3">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Surface Normal</p>
+                                        <div class="port p-vector3">
+                                            <p>ddd</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer"></div>
+                    </div>
+                </div>
+                <div class="swiper-slide flex-column">
+                    <div class="chip c-event-definition">
+                        <div class="header">
+                            <p class="title">Event Definition</p>
+                            <div class="port p-object">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="footer"></div>
+                    </div>
+                    <div class="chip c-event-definition">
+                        <div class="header">
+                            <p class="title">Announce Message</p>
+                            <div class="port p-object">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="ports">
+                            <div class="section">
+                                <div class="input">
+                                    <div class="port-container">
+                                        <p class="name">Message</p>
+                                        <div class="port p-string">
+                                            <p>(0.000, 0.000, 0.000)</p>
+                                        </div>
+                                    </div>
+                                    <div class="port-container">
+                                        <p class="name">Duration</p>
+                                        <div class="port p-float">
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer"></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <section style="display: flex;justify-content: center;align-items: center;height: 100vh;">
+        <div class="chip">
+            <div class="header">
+                <p class="title">All Port Types</p>
+            </div>
+            <div class="ports">
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Exec</p>
+                            <div class="port p-exec">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Exec</p>
+                            <div class="port p-exec">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Bool</p>
+                            <div class="port p-bool">
+                                <p>False</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Bool</p>
+                            <div class="port p-bool">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Float</p>
+                            <div class="port p-float">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Float</p>
+                            <div class="port p-float">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Int</p>
+                            <div class="port p-int">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Int</p>
+                            <div class="port p-int">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Dictionary</p>
+                            <div class="port p-dictionary">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Dictionary</p>
+                            <div class="port p-dictionary">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Quaternion</p>
+                            <div class="port p-quaternion">
+                                <p>(0.000, 0.000, 0.000, 1.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Quaternion</p>
+                            <div class="port p-quaternion">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">String</p>
+                            <div class="port p-string">
+                                <p>""</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">String</p>
+                            <div class="port p-string">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Vector3</p>
+                            <div class="port p-vector3">
+                                <p>(0.000, 0.000, 0.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Vector3</p>
+                            <div class="port p-vector3">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Rec Room Object</p>
+                            <div class="port p-object">
+                                <p>(0.000, 0.000, 0.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Rec Room Object</p>
+                            <div class="port p-object">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Player</p>
+                            <div class="port p-player">
+                                <p>Local Player</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Player</p>
+                            <div class="port p-player">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Color</p>
+                            <div class="port p-color">
+                                <p>Red</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Color</p>
+                            <div class="port p-color">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"></div>
+        </div>
+    </section>
+    <section style="display: flex;justify-content: center;align-items: center;height: 100vh;">
+        <div class="chip">
+            <div class="header">
+                <p class="title">All Port Types (lists)</p>
+            </div>
+            <div class="ports">
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Bool</p>
+                            <div class="port p-bool list">
+                                <p>False</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Bool</p>
+                            <div class="port p-bool list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Float</p>
+                            <div class="port p-float list">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Float</p>
+                            <div class="port p-float list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Int</p>
+                            <div class="port p-int list">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Int</p>
+                            <div class="port p-int list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Dictionary</p>
+                            <div class="port p-dictionary list">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Dictionary</p>
+                            <div class="port p-dictionary list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Quaternion</p>
+                            <div class="port p-quaternion list">
+                                <p>(0.000, 0.000, 0.000, 1.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Quaternion</p>
+                            <div class="port p-quaternion list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">String</p>
+                            <div class="port p-string list">
+                                <p>""</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">String</p>
+                            <div class="port p-string list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Vector3</p>
+                            <div class="port p-vector3 list">
+                                <p>(0.000, 0.000, 0.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Vector3</p>
+                            <div class="port p-vector3 list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Rec Room Object</p>
+                            <div class="port p-object list">
+                                <p>(0.000, 0.000, 0.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Rec Room Object</p>
+                            <div class="port p-object list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Player</p>
+                            <div class="port p-player list">
+                                <p>Local Player</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Player</p>
+                            <div class="port p-player list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Color</p>
+                            <div class="port p-color list">
+                                <p>Red</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Color</p>
+                            <div class="port p-color list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"></div>
+        </div>
+    </section>
+    <section style="display: flex;justify-content: center;align-items: center;height: 100vh;">
+        <div class="chip c-event-definition">
+            <div class="header">
+                <p class="title">Event Definition (all port types)</p>
+            </div>
+            <div class="ports">
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Bool</p>
+                            <div class="port p-bool">
+                                <p>False</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Bool</p>
+                            <div class="port p-bool list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Float</p>
+                            <div class="port p-float">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Float</p>
+                            <div class="port p-float list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Int</p>
+                            <div class="port p-int">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Int</p>
+                            <div class="port p-int list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Dictionary</p>
+                            <div class="port p-dictionary list">
+                                <p>0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Dictionary</p>
+                            <div class="port p-dictionary list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Quaternion</p>
+                            <div class="port p-quaternion list">
+                                <p>(0.000, 0.000, 0.000, 1.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Quaternion</p>
+                            <div class="port p-quaternion list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">String</p>
+                            <div class="port p-string list">
+                                <p>""</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">String</p>
+                            <div class="port p-string list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Vector3</p>
+                            <div class="port p-vector3 list">
+                                <p>(0.000, 0.000, 0.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Vector3</p>
+                            <div class="port p-vector3 list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Rec Room Object</p>
+                            <div class="port p-object list">
+                                <p>(0.000, 0.000, 0.000)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Rec Room Object</p>
+                            <div class="port p-object list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Player</p>
+                            <div class="port p-player list">
+                                <p>Local Player</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Player</p>
+                            <div class="port p-player list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="input">
+                        <div class="port-container">
+                            <p class="name">Color</p>
+                            <div class="port p-color list">
+                                <p>Red</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="output">
+                        <div class="port-container">
+                            <p class="name">Color</p>
+                            <div class="port p-color list">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"></div>
+        </div>
+    </section>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+</body>
+
+</html>
