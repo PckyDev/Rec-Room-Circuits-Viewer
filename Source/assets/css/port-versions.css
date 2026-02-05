@@ -2,11 +2,11 @@
   left: -.75rem;
 }
 
-.output .port.p-exec {
+.output .port.p-exec, .footer .port.p-exec {
   right: -.75rem;
 }
 
-.input .port.p-exec p, .output .port:not(.list) p, .input .port.p-dictionary:not(.list) p, .input .port.p-object:not(.list) p, .input .port.p-any:not(.list) p {
+.input .port.p-exec p, .footer .port.p-exec p, .output .port:not(.list) p, .input .port.p-dictionary:not(.list) p, .input .port.p-object:not(.list) p, .input .port.p-any:not(.list) p {
   display: none;
 }
 

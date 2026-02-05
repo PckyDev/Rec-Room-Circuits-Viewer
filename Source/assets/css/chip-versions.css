@@ -68,3 +68,72 @@
   width: 100%;
 }
 
+/* Event Receiver */
+
+.chip.c-event-receiver {
+  display: flex;
+  flex-direction: row;
+}
+
+.chip.c-event-receiver .header {
+  border-radius: .625rem 0 0 .625rem;
+  display: flex;
+  align-items: start;
+}
+
+.chip.c-event-receiver .ports {
+  gap: 0;
+  padding: 1rem 0;
+}
+
+.chip.c-event-receiver .ports .section .input {
+  display: none;
+}
+
+.chip.c-event-receiver .ports .section {
+  justify-content: end;
+}
+
+/* Event Sender */
+
+.chip.c-event-sender {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.chip.c-event-sender .header {
+  border-radius: 0;
+  display: flex;
+  align-items: start;
+}
+
+.chip.c-event-sender .footer {
+  order: -1;
+  opacity: 1;
+  width: 2rem;
+  background: transparent;
+  position: relative;
+}
+
+.chip:not(.c-event-sender) .footer .port.p-exec {
+  display: none;
+}
+
+.chip.c-event-sender .footer .port {
+  top: 1rem;
+  position: absolute;
+}
+
+.chip.c-event-sender .ports {
+  gap: 0;
+  padding: 1rem 0;
+}
+
+.chip.c-event-sender .ports .section .output {
+  display: none;
+}
+
+.chip.c-event-sender .ports .section {
+  justify-content: start;
+}
+
