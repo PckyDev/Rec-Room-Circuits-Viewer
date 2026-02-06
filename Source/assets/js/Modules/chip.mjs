@@ -117,6 +117,7 @@ export const chip = {
 				'color': 'color',
 				'exec': 'exec',
 				't': 'any',
+				'any': 'any',
 			},
 			chipTypeDefinitions: {
 				'Reroute': 'empty',
@@ -127,7 +128,8 @@ export const chip = {
 				'i': 'comment',
 				'Message Sender': 'event-sender',
 				'Message Receiver': 'event-receiver',
-				'Circuit Board': 'board'
+				'Circuit Board': 'board',
+				'Data Table': 'event-definition'
 			},
 			nodes: []
 		};
