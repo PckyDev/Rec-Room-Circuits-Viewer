@@ -118,7 +118,7 @@ export function chip(element, obj) {
 
 	let chipType = '';
 	$.each(chip.chipTypeDefinitions, function(key, value) {
-		if (obj.ReadonlyChipName.includes(key)) {
+		if (obj.ReadonlyChipName.match(new RegExp(`^${key}`, 'gm'))) {
 			chipType = value;
 			return false; // break loop
 		}
