@@ -1,12 +1,14 @@
 .chip {
-  background-color: #7c7983;
+  --chip-bg: #7c7983;
+  --chip-header: #515460;
+  background-color: var(--chip-bg);
   border-radius: .625rem;
   box-shadow: 0 0 1rem .5rem rgba(0,0,0,0.25);
   font-family: 'Roboto';
 }
 
 .chip .header {
-  background-color: #515460;
+  background-color: var(--chip-header);
   border-radius: .625rem .625rem 0 0;
   padding: .75rem 1rem;
   position: relative;
@@ -16,7 +18,7 @@
 }
 
 .chip .footer {
-  background-color: #515460;
+  background-color: var(--chip-header);
   border-radius: 0 0 .625rem .625rem;
   height: 1rem;
 }
@@ -91,7 +93,7 @@
   font-size: .7rem;
   color: white;
   margin: 0;
-  background-color: #7c7983;
+  background-color: var(--chip-bg);
   line-height: .75rem;
   padding: .1rem .2rem .1rem .2rem;
   white-space: nowrap;

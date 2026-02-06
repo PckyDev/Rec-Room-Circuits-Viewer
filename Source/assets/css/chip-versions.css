@@ -12,7 +12,7 @@
 /* Event Definition */
 
 .chip.c-event-definition {
-  background-color: #515460;
+  background-color: var(--chip-header);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,7 +29,7 @@
 
 .chip.c-event-definition .ports {
   width: calc(100% - 2rem);
-  background-color: #7c7983;
+  background-color: var(--chip-bg);
   border-radius: .3125rem;
   margin: 0 1rem;
   gap: 0;
@@ -210,5 +210,23 @@
 .chip.c-board .ports {
   padding-top: .25rem;
   padding-bottom: .25rem;
+}
+
+/* Comment */
+
+.chip.c-comment {
+  background-color: var(--chip-header);
+  position: relative;
+  padding: 1.125rem;
+}
+
+.chip.c-comment .header {
+  background-color: var(--chip-bg);
+  border-radius: .3125rem;
+  padding: 1rem 1.5rem;
+}
+
+.chip.c-comment .footer {
+  display: none;
 }
 
