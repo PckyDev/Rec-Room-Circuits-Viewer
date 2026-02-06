@@ -196,3 +196,19 @@
   gap: .5rem;
 }
 
+/* Board */
+
+.chip.c-board .header {
+  padding: 1.25rem 1rem;
+}
+
+.chip.c-board .footer {
+  opacity: 1;
+  height: 1rem;
+}
+
+.chip.c-board .ports {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
