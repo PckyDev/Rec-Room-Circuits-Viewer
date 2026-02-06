@@ -120,16 +120,16 @@ export const chip = {
 				'any': 'any',
 			},
 			chipTypeDefinitions: {
-				'Reroute': 'empty',
-				'Event Receiver': 'event-receiver',
-				'Event Sender': 'event-sender',
-				'Event Definition': 'event-definition',
-				'Variable': 'variable',
-				'i': 'comment',
-				'Message Sender': 'event-sender',
-				'Message Receiver': 'event-receiver',
-				'Circuit Board': 'board',
-				'Data Table': 'event-definition'
+				'^Reroute$': 'empty',
+				'^Event Receiver$': 'event-receiver',
+				'^Event Sender$': 'event-sender',
+				'^Event Definition$': 'event-definition',
+				'Variable$': 'variable',
+				'^i$': 'comment',
+				'^Message Sender$': 'event-sender',
+				'^Message Receiver$': 'event-receiver',
+				'^Circuit Board$': 'board',
+				'^Data Table$': 'event-definition'
 			},
 			nodes: []
 		};
@@ -181,7 +181,8 @@ export const chip = {
 
 		let chipType = '';
 		$.each(_.chipTypeDefinitions, function(key, value) {
-			if (chip.ReadonlyChipName.match(new RegExp(`^${key}|${key}$`, 'gm'))) {
+			// if (chip.ReadonlyChipName.match(new RegExp(`^${key}|${key}$`, 'gm'))) {
+			if (chip.ReadonlyChipName.match(new RegExp(`${key}`, 'gm'))) {
 				chipType = value;
 				return false; // break loop
 			}
