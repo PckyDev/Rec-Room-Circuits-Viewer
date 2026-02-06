@@ -60,3 +60,11 @@
   content: "\"";
 }
 
+.input .port.p-vector3 p::before, .input .port.p-quaternion p::before {
+  content: "(";
+}
+
+.input .port.p-vector3 p::after, .input .port.p-quaternion p::after {
+  content: ")";
+}
+
