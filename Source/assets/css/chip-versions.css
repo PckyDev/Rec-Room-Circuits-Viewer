@@ -161,3 +161,38 @@
   gap: .5rem;
 }
 
+/* Variable */
+
+.chip.c-variable {
+  position: relative;
+  padding: 1.125rem;
+}
+
+.chip.c-variable .header {
+  border-radius: .3125rem;
+  padding: 1rem .75rem;
+}
+
+.chip.c-variable .footer {
+  display: none;
+}
+
+.chip.c-variable .ports {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 30%;
+}
+
+.chip.c-variable .ports .section .port-container .name {
+  display: none;
+}
+
+.chip.c-variable .ports .section .port-container {
+  height: 1rem;
+}
+
+.chip.c-variable .ports .section .output, .chip.c-variable .ports .section .input {
+  gap: .5rem;
+}
+
