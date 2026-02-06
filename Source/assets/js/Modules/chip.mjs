@@ -124,6 +124,8 @@ export const chip = {
 				'Event Definition': 'event-definition',
 				'Variable': 'variable',
 				'i': 'comment',
+				'Message Sender': 'event-sender',
+				'Message Receiver': 'event-receiver',
 			},
 			nodes: []
 		};
