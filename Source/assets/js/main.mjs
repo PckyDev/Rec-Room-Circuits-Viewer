@@ -4,13 +4,16 @@ $(function () {
 	const _ = {
 		data: {
 			renderElement: null,
+			selectedChipData: null,
+			options: {
+				size: 1
+			}
 		},
 		init: async () => {
 			await _.load.circuitsv2();
 			await _.load.renderElement();
 			await _.load.selectMenu();
-			// Example usage of chip function
-			chip(_.data.renderElement, _.data.Circuits[Object.keys(_.data.Circuits)[0]]);
+			_.render.chip();
 		},
 		load: {
 			circuitsv2: async () => {
@@ -41,12 +44,19 @@ $(function () {
 						.text(chipData.ReadonlyPaletteName);
 					_.data.selectMenuElement.append(option);
 				});
+				_.data.selectedChipData = _.data.Circuits[_.data.selectMenuElement.val()];
 				_.data.selectMenuElement.on('change', function () {
 					let selectedChipName = $(this).val();
 					let selectedChipData = _.data.Circuits[selectedChipName];
+					_.data.selectedChipData = selectedChipData;
 					$('#render').empty();
-					chip(_.data.renderElement, selectedChipData);
+					_.render.chip();
 				});
+			}
+		},
+		render: {
+			chip: () => {
+				chip(_.data.renderElement, _.data.selectedChipData, _.data.options);
 			}
 		}
 	}

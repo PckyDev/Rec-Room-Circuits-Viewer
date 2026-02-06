@@ -1,4 +1,13 @@
-export function chip(element, obj) {
+export function chip(element, obj, opt) {
+
+	if (!element || !obj) {
+		console.error('Element and object parameters are required to render a chip.');
+		return;
+	}
+
+	const options = {
+		size: opt?.size || 1,
+	}
 
 	const chip = {
 		templates: {
@@ -125,12 +134,22 @@ export function chip(element, obj) {
 		.replace('{{chipTitle}}', obj.ReadonlyChipName)
 		.replace('{{portSections}}', portSectionsHTML);
 
-	$(element).html(`${chipHTML}`);
+	$(element)
+		.html(`${chipHTML}`)
+		.css({
+			'display': 'flex',
+			'justify-content': 'center',
+			'align-items': 'center'
+		});
 
-	$(element).find('.port-container .name').each(function() {
-		if ($(this).text() === '|') {
-			$(this).css('opacity', '0');
-		}
-	});
+	$(element)
+		.css({
+			'transform': `scale(${options.size})`,
+		})
+		.find('.port-container .name').each(function() {
+			if ($(this).text() === '|') {
+				$(this).css('opacity', '0');
+			}
+		});
 
 }
