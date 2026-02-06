@@ -39,14 +39,19 @@ export const chip = {
 
 		if (typeof chip == 'string') {
 			chip = chip.replace(/\s/gm, '');
-			await search(chip).then(results => {
-				if (Object.keys(results).length > 0) {
-					chip = results[Object.keys(results)[0]];
-				} else {
-					console.error(`No chip found matching "${chip}".`);
-					return;
-				}
-			});
+			let jsonData = await getJSON(true);
+			if (jsonData[chip]) {
+				chip = jsonData[chip];
+			} else {
+				await search(chip).then(results => {
+					if (Object.keys(results).length > 0) {
+						chip = results[Object.keys(results)[0]];
+					} else {
+						console.error(`No chip found matching "${chip}".`);
+						return;
+					}
+				});
+			}
 		}
 
 		const options = {
