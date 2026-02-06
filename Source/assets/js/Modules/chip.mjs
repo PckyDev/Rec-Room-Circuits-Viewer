@@ -57,6 +57,7 @@ export const chip = {
 		const options = {
 			log: opt?.log || false,
 			size: opt?.size || 1,
+			autoFit: opt?.autoFit || true
 		}
 
 		const _ = {
@@ -190,18 +191,59 @@ export const chip = {
 				'display': 'flex',
 				'justify-content': 'center',
 				'align-items': 'center'
-			});
-
-		$(element)
-			.css({
-				'transform': `scale(${options.size})`,
 			})
 			.find('.port-container .name').each(function() {
 				if ($(this).text() === '|') {
 					$(this).css('opacity', '0');
 				}
 			});
+		
+		$(element)
+			.find('.chip')
+				.css({
+					'transform': `scale(${options.size})`,
+				})
 
+		function autoFit() {
+			if (!options.autoFit) return;
+
+			const $chip = $(element).find('.chip');
+			if ($chip.length === 0) return;
+
+			let containerWidth = $(element).width();
+			let padding = 50; // extra space to prevent overflow
+
+			// Keep padding on BOTH sides.
+			const availableWidth = Math.max(0, containerWidth - (padding * 2));
+
+			// Start from the desired scale.
+			const baseScale = options.size;
+			$chip.css({
+				'transform': `scale(${baseScale})`,
+			});
+
+			// getBoundingClientRect() already includes the current transform scale,
+			// so do NOT multiply by scale again.
+			const rect = $chip[0].getBoundingClientRect();
+			const renderedWidth = rect.width;
+
+			if (renderedWidth <= 0 || availableWidth <= 0) return;
+
+			// Only scale down if needed (keep the requested size otherwise).
+			const fitScale = renderedWidth > availableWidth
+				? baseScale * (availableWidth / renderedWidth)
+				: baseScale;
+
+			$chip.css({
+				'transform': `scale(${fitScale})`,
+			});
+		}
+
+		$(window).on('resize', function() {
+			autoFit();
+		});
+
+		autoFit();
 	},
 	async get(chipName) {
 		let jsonData = await getJSON(true);
