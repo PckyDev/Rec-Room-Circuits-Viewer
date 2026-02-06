@@ -137,3 +137,27 @@
   justify-content: start;
 }
 
+/* Empty */
+
+.chip.c-empty .header, .chip.c-empty .footer {
+  opacity: 0;
+  height: 1rem;
+  padding: 0;
+}
+
+.chip.c-empty .ports .section {
+  gap: 2.25rem;
+}
+
+.chip.c-empty .header .title, .chip.c-empty .ports .section .port-container .name {
+  display: none;
+}
+
+.chip.c-empty .ports .section .port-container {
+  height: 1rem;
+}
+
+.chip.c-empty .ports .section .output, .chip.c-empty .ports .section .input {
+  gap: .5rem;
+}
+
