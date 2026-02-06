@@ -8,7 +8,7 @@
   transition: .2s;
   filter: blur(0rem) brightness(1);
   opacity: 1;
-  display: flex;
+  display: flex !important;
   justify-content: center;
   align-items: center;
   gap: 2rem;
