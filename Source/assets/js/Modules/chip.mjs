@@ -83,34 +83,30 @@ export function chip(element, obj) {
 	chip.nodes.forEach(sec => {
 
 		let inputPortsHTML = '';
-		sec.inputs.forEach(input => {
-			let portType = 'object';
-			$.each(chip.portTypeDefinitions, function(key, value) {
-				if (input.ReadonlyType.toLowerCase().match(new RegExp(`\^${key}|list<${key}>`, 'gm'))) {
-					portType = value;
-					return false; // break loop
+		let outputPortsHTML = '';
+		let portLoop = ['input', 'output'];
+		portLoop.forEach(loop => {
+			let ports = loop === 'input' ? sec.inputs : sec.outputs;
+			ports.forEach(port => {
+				let portType = 'object';
+				$.each(chip.portTypeDefinitions, function(key, value) {
+					if (port.ReadonlyType.toLowerCase().match(new RegExp(`\^${key}|list<${key}>`, 'gm'))) {
+						portType = value;
+						return false; // break loop
+					}
+				});
+				let portHTML = chip.templates.port
+					.replace('{{portName}}', port.Name !== '' ? port.Name : '|')
+					.replace('{{portType}}', port.ReadonlyType.toLowerCase().includes('list') ? portType + ' list' : portType)
+					.replace('{{portValue}}', chip.defaultPortValues[port.ReadonlyType.toLowerCase()] || '');
+				if (loop === 'input') {
+					inputPortsHTML += portHTML;
+				} else {
+					outputPortsHTML += portHTML;
 				}
 			});
-			inputPortsHTML += chip.templates.port
-				.replace('{{portName}}', input.Name !== '' ? input.Name : '|')
-				.replace('{{portType}}', input.ReadonlyType.toLowerCase().includes('list') ? portType + ' list' : portType)
-				.replace('{{portValue}}', chip.defaultPortValues[input.ReadonlyType.toLowerCase()] || '');
 		});
 
-		let outputPortsHTML = '';
-		sec.outputs.forEach(output => {
-			let portType = 'object';
-			$.each(chip.portTypeDefinitions, function(key, value) {
-				if (output.ReadonlyType.toLowerCase().match(new RegExp(`\^${key}|list<${key}>`, 'gm'))) {
-					portType = value;
-					return false; // break loop
-				}
-			});
-			outputPortsHTML += chip.templates.port
-				.replace('{{portName}}', output.Name !== '' ? output.Name : '|')
-				.replace('{{portType}}', output.ReadonlyType.toLowerCase().includes('list') ? portType + ' list' : portType)
-				.replace('{{portValue}}', chip.defaultPortValues[output.ReadonlyType.toLowerCase()] || '');
-		});
 		portSectionsHTML += chip.templates.portSection
 			.replace('{{inputPorts}}', inputPortsHTML)
 			.replace('{{outputPorts}}', outputPortsHTML);
@@ -118,7 +114,7 @@ export function chip(element, obj) {
 
 	let chipType = '';
 	$.each(chip.chipTypeDefinitions, function(key, value) {
-		if (obj.ReadonlyChipName.match(new RegExp(`^${key}`, 'gm'))) {
+		if (obj.ReadonlyChipName.match(new RegExp(`^${key}|${key}$`, 'gm'))) {
 			chipType = value;
 			return false; // break loop
 		}
