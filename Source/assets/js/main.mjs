@@ -7,6 +7,7 @@ $(function () {
 			selectedChipData: null,
 		},
 		init: async () => {
+			await chip.init();
 			await _.load.circuitsv2();
 			await _.load.renderElement();
 			await _.load.selectMenu();
@@ -14,7 +15,7 @@ $(function () {
 		},
 		load: {
 			circuitsv2: async () => {
-				await chip.getAll(true).then(circuits => {
+				await chip.getAll().then(circuits => {
 					_.data.Circuits = circuits;
 				});
 			},
@@ -26,7 +27,7 @@ $(function () {
 				$.each(_.data.Circuits, function (chipName, chipData) {
 					let option = $('<option></option>')
 						.attr('value', chipName)
-						.text(chipData.ReadonlyPaletteName);
+						.text(chipData.paletteName);
 					_.data.selectMenuElement.append(option);
 				});
 				_.data.selectedChipData = _.data.Circuits[_.data.selectMenuElement.val()];
@@ -46,7 +47,7 @@ $(function () {
 					size: 1
 				}
 				// chip.render(_.data.renderElement, _.data.selectedChipData, options);
-				// await chip.render(_.data.renderElement, 'Circuit Board', options);
+				// await chip.render(_.data.renderElement, 'List Create With', options);
 				await chip.render(_.data.renderElement, $('#select-menu').val(), options);
 			}
 		}

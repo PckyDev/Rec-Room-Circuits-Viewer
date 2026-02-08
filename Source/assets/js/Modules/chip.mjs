@@ -1,19 +1,25 @@
-async function getJSON(converted) {
-	const res = await fetch('https://raw.githubusercontent.com/tyleo-rec/CircuitsV2Resources/refs/heads/master/misc/circuitsv2.json');
+const _ = {
+	repo: {
+		mainUrl: 'https://raw.githubusercontent.com/PckyDev/Rec-Room-Circuits-Viewer/refs/heads/main/',
+		circuitsDataPath: 'Circuits%20Data/CV2_ChipConfigs.json',
+		css: {
+			basePath: 'Source/assets/css/Chip/',
+			files: [
+				'chip-layout.css',
+				'chip-versions.css',
+				'port-colors.css',
+				'port-sizes.css',
+				'port-versions.css'
+			]
+		}
+	}
+}
+
+async function getJSON() {
+	const res = await fetch(`${_.repo.mainUrl}${_.repo.circuitsDataPath}`);
 	const data = await res.json();
 	
-	if (converted) {
-		let converted = {};
-		$.each(data.Nodes, async function (index, chip) {
-			if (chip.DeprecationStage !== 'Deprecated') {
-				let chipName = chip.ReadonlyPaletteName.replace(/\s/gm, '');
-				converted[chipName] = chip;
-			}
-		});
-		return converted;
-	} else {
-		return data;
-	}
+	return data.configs;
 }
 
 async function search(query) {
@@ -30,6 +36,19 @@ async function search(query) {
 
 export const chip = {
 	
+	init: async () => {
+		const htmlHead = document.head;
+		// Fetch CSS files, combine them, and inject into a style tag
+		let combinedCSS = '';
+		for (const cssFile of _.repo.css.files) {
+			const res = await fetch(`${_.repo.mainUrl}${_.repo.css.basePath}${cssFile}`);
+			const cssText = await res.text();
+			combinedCSS += `\n/* ${cssFile} */\n` + cssText;
+		}
+		const style = document.createElement('style');
+		style.textContent = combinedCSS;
+		htmlHead.appendChild(style);
+	},
 	async render(element, chip, opt) {
 
 		if (!element || !chip) {
@@ -131,13 +150,95 @@ export const chip = {
 				'^Circuit Board$': 'board',
 				'^Data Table$': 'event-definition'
 			},
+			dynamicPortDefinitions: {
+				'Equals': {
+					extraInputs: [
+						{ name: 'Value', type: 't' }
+					],
+				},
+				'And': {
+					extraInputs: [
+						{ name: 'Input', type: 'bool' }
+					],
+				},
+				'Or': {
+					extraInputs: [
+						{ name: 'Input', type: 'bool' }
+					],
+				},
+				'Xor': {
+					extraInputs: [
+						{ name: 'Input', type: 'bool' }
+					],
+				},
+				'Nand': {
+					extraInputs: [
+						{ name: 'Input', type: 'bool' }
+					],
+				},
+				'Nor': {
+					extraInputs: [
+						{ name: 'Input', type: 'bool' }
+					],
+				},
+				'String Concat': {
+					extraInputs: [
+						{ name: 'Value', type: 'string' }
+					],
+				},
+				'List Create': {
+					extraInputs: [
+						{ name: 'Item', type: 't' }
+					],
+				},
+				'List Except': {
+					extraInputs: [
+						{ name: 'Item', type: 'list<t>' }
+					],
+				},
+				'List Intersect': {
+					extraInputs: [
+						{ name: 'Value', type: 'list<t>' }
+					],
+				},
+				'Add': {
+					extraInputs: [
+						{ name: 'Value', type: 't' }
+					],
+				},
+				'Subtract': {
+					extraInputs: [
+						{ name: 'Value', type: 't' }
+					],
+				},
+				'Multiply': {
+					extraInputs: [
+						{ name: 'Value', type: 't' }
+					],
+				},
+				'Divide': {
+					extraInputs: [
+						{ name: 'Value', type: 't' }
+					],
+				},
+				'Modulo': {
+					extraInputs: [
+						{ name: 'Value', type: 't' }
+					],
+				},
+				'Remainder': {
+					extraInputs: [
+						{ name: 'Value', type: 't' }
+					],
+				},
+			},
 			nodes: []
 		};
 
-		if (chip.NodeDescs.length !== 0) {
+		if (chip.nodeDescs.length !== 0) {
 			let section = {
-				inputs: chip.NodeDescs[0].Inputs,
-				outputs: chip.NodeDescs[0].Outputs
+				inputs: chip.nodeDescs[0].inputs,
+				outputs: chip.nodeDescs[0].outputs
 			};
 			_.nodes.push(section);
 		} else {
@@ -154,18 +255,22 @@ export const chip = {
 			let portLoop = ['input', 'output'];
 			portLoop.forEach(loop => {
 				let ports = loop === 'input' ? sec.inputs : sec.outputs;
+				if (chip.chipName in _.dynamicPortDefinitions) {
+					let extraPorts = _.dynamicPortDefinitions[chip.chipName][loop === 'input' ? 'extraInputs' : 'extraOutputs'] || [];
+					ports = ports.concat(extraPorts);
+				}
 				ports.forEach(port => {
 					let portType = 'object';
 					$.each(_.portTypeDefinitions, function(key, value) {
-						if (port.ReadonlyType.toLowerCase().match(new RegExp(`\^${key}|list<${key}>`, 'gm'))) {
+						if (port.type.toLowerCase().match(new RegExp(`\^${key}|list<${key}>`, 'gm'))) {
 							portType = value;
 							return false; // break loop
 						}
 					});
 					let portHTML = _.templates.port
-						.replace('{{portName}}', port.Name !== '' ? port.Name : '|')
-						.replace('{{portType}}', port.ReadonlyType.toLowerCase().includes('list') ? portType + ' list' : portType)
-						.replace('{{portValue}}', _.defaultPortValues[port.ReadonlyType.toLowerCase()] || '');
+						.replace('{{portName}}', port.name !== '' ? port.name : '|')
+						.replace('{{portType}}', port.type.toLowerCase().includes('list') ? portType + ' list' : portType)
+						.replace('{{portValue}}', _.defaultPortValues[port.type.toLowerCase()] || '');
 					if (loop === 'input') {
 						inputPortsHTML += portHTML;
 					} else {
@@ -181,8 +286,7 @@ export const chip = {
 
 		let chipType = '';
 		$.each(_.chipTypeDefinitions, function(key, value) {
-			// if (chip.ReadonlyChipName.match(new RegExp(`^${key}|${key}$`, 'gm'))) {
-			if (chip.ReadonlyChipName.match(new RegExp(`${key}`, 'gm'))) {
+			if (chip.chipName.match(new RegExp(`${key}`, 'gm'))) {
 				chipType = value;
 				return false; // break loop
 			}
@@ -190,7 +294,7 @@ export const chip = {
 
 		let chipHTML = _.templates.chip
 			.replace('{{chipType}}', chipType)
-			.replace('{{chipTitle}}', chip.ReadonlyChipName)
+			.replace('{{chipTitle}}', chip.chipName)
 			.replace('{{portSections}}', portSectionsHTML);
 
 		$(element)
