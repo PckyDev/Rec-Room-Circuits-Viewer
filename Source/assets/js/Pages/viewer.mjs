@@ -1,4 +1,4 @@
-import { chip } from './Modules/chip.mjs';
+import { chip } from '../Modules/chip.mjs';
 
 $(function () {
 	const _ = {

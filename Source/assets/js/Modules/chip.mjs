@@ -15,6 +15,22 @@ const _ = {
 	}
 }
 
+async function getInfo() {
+	const res = await fetch(`${_.repo.mainUrl}${_.repo.circuitsDataPath}`);
+	const data = await res.json();
+	const getProperties = ['exportedAtUtc', 'sourceFolder', 'configuredSourceFolder', 'sourceFolderUsedFallback', 'count'];
+	let info = {};
+	getProperties.forEach(prop => {
+		if (prop === 'exportedAtUtc') {
+			let date = new Date(data[prop]);
+			info[prop] = date.toLocaleString();
+		} else {
+			info[prop] = data[prop];
+		}
+	});
+	return info;
+}
+
 async function getJSON() {
 	const res = await fetch(`${_.repo.mainUrl}${_.repo.circuitsDataPath}`);
 	const data = await res.json();
@@ -48,6 +64,18 @@ export const chip = {
 		const style = document.createElement('style');
 		style.textContent = combinedCSS;
 		htmlHead.appendChild(style);
+
+		const data = await getInfo();
+		const logData = [
+			'///////////////////////////////////////////////////////',
+			'Rec Room Circuits API initialized',
+			'Data loaded with ' + data.count + ' chips',
+			'Circuits Data Last Updated: ' + data.exportedAtUtc,
+			'///////////////////////////////////////////////////////'
+		];
+		logData.forEach(line => console.log(line));
+
+		return data;
 	},
 	async render(element, chip, opt) {
 
