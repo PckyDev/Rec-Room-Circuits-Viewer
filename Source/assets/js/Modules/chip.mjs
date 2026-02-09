@@ -178,7 +178,7 @@ export const chip = {
 				'^Circuit Board$': 'board',
 				'^Data Table$': 'event-definition'
 			},
-			dynamicPortDefinitions: {
+			portDefinitions: {
 				'Equals': {
 					extraInputs: [
 						{ name: 'Value', type: 't' }
@@ -259,6 +259,11 @@ export const chip = {
 						{ name: 'Value', type: 't' }
 					],
 				},
+				'Self': {
+					replaceOutputs: [
+						{ name: '|', type: 'object' }
+					],
+				}
 			},
 			nodes: []
 		};
@@ -283,9 +288,19 @@ export const chip = {
 			let portLoop = ['input', 'output'];
 			portLoop.forEach(loop => {
 				let ports = loop === 'input' ? sec.inputs : sec.outputs;
-				if (chip.chipName in _.dynamicPortDefinitions) {
-					let extraPorts = _.dynamicPortDefinitions[chip.chipName][loop === 'input' ? 'extraInputs' : 'extraOutputs'] || [];
-					ports = ports.concat(extraPorts);
+				if (chip.chipName in _.portDefinitions) {
+					if (_.portDefinitions[chip.chipName].extraInputs) {
+						let extraPorts = _.portDefinitions[chip.chipName][loop === 'input' ? 'extraInputs' : 'extraOutputs'] || [];
+						ports = ports.concat(extraPorts);
+					}
+					if (_.portDefinitions[chip.chipName].replaceOutputs) {
+						let replacePorts = _.portDefinitions[chip.chipName][loop === 'input' ? 'replaceInputs' : 'replaceOutputs'] || [];
+						if (replacePorts.length > 0) {
+							ports = replacePorts;
+						}
+					}
+					// let extraPorts = _.portDefinitions[chip.chipName][loop === 'input' ? 'extraInputs' : 'extraOutputs'] || [];
+					// ports = ports.concat(extraPorts);
 				}
 				ports.forEach(port => {
 					let portType = 'object';
