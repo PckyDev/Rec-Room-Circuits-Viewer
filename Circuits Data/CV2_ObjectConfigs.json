@@ -1,0 +1,4932 @@
+{
+    "updatedAtUtc": "2026-02-09T07:23:27Z",
+    "count": 0,
+    "configs": {
+        "TexturedQuad": {
+            "paletteName": "Textured Quad",
+            "chipName": "Textured Quad",
+            "description": "A simple 3D surface which displays the contents of a texture. Use with Texture constant.",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 3,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Textured Quad"
+                    ]
+                }
+            ],
+            "nodeDescs": []
+        },
+        "ThrowHandle": {
+            "paletteName": "Throw Handle",
+            "chipName": "Throw Handle",
+            "description": "",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 8,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Throw Handle"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "On Throw",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Throw",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Direction",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Speed",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Pickup",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Pickup",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Release",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Release",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "ToggleButton": {
+            "paletteName": "Toggle Button",
+            "chipName": "Toggle Button",
+            "description": "This button stays pressed after pressing it. Press again to release.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 9,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Toggle Button"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Pressed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Released",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Released",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Pressed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Pressed",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "TouchpadComponent": {
+            "paletteName": "Touchpad Component",
+            "chipName": "Touchpad Component",
+            "description": "Get 2D input from the player hand touching a surface.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 8,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Touchpad"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Touch Started",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Touch Started",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Start Position",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Touch Moved",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Touch Moved",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Current Position",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Previous Position",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Touch Ended",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Touch Ended",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "End Position",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Enabled",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Enabled",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Enabled",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Enabled",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "TriggerHandle": {
+            "paletteName": "Trigger Handle",
+            "chipName": "Trigger Handle",
+            "description": "Detects input when a player pulls the trigger.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 14,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Trigger Handle"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Primary Action Pressed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Primary Action Pressed",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Primary Action Released",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Primary Action Released",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Primary Action Held",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Primary Action is Held",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Pickup",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Pickup",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Release",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Release",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Data",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Currently Equipped",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "TriggerVolume": {
+            "paletteName": "Trigger Volume",
+            "chipName": "Trigger Volume",
+            "description": "Keeps track of players or non-decorational objects inside the volume.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 15,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Trigger Volume"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Player Entered",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Player Entered",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Player Exited",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Player Exited",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Object Entered",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Object Entered",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Object Exited",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Object Exited",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Players",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Players",
+                            "type": "List<Player>",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Objects",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Objects",
+                            "type": "List<Rec Room Object>",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "VectorComponent": {
+            "paletteName": "Vector Component",
+            "chipName": "Vector Component",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 5,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Vector Component"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Vector",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Magnitude",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Vector",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "WearableHandle": {
+            "paletteName": "Wearable Handle",
+            "chipName": "Wearable Handle",
+            "description": "Allows you to put on items.",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 11,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Wearable Handle"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "On Equipped",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Equipped",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Pickup",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Pickup",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Release",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Release",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Data",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Currently Equipped",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "WelcomeMat": {
+            "paletteName": "Welcome Mat",
+            "chipName": "Welcome Mat",
+            "description": "Players will spawn on a welcome mat when joining the room. You can use CV2 to send players to specific Welcome Mats when going to other rooms!",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 6,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Welcome Mat"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Set Enabled",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Enabled",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Enabled",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Enabled",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Enabled",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "RoomDoor": {
+            "paletteName": "Room Door",
+            "chipName": "Room Door",
+            "description": "Link to other rooms and subrooms!",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 10,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Room Door"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Door Used",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Door Used",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Locked",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Locked",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Locked",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Locked",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Destination",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Destination",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Destination",
+                            "type": "Destination Room",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Destination",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Locked",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Locked",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Rotator": {
+            "paletteName": "Rotator",
+            "chipName": "Rotator",
+            "description": "Rotates objects wired to it.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 10,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Rotator"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Play",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reverse",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Reverse",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Reverse",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Parameters",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Speed",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Rotation",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Target Hit",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Target Hit",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Seat": {
+            "paletteName": "Seat",
+            "chipName": "Seat",
+            "description": "A cushion that sits and rigidly attaches players that grab/interact with it, even if the Seat moves or rotates.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 10,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Seat"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Seat Player",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Seat Player",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Seat Success",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Seat Failure",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Lock Players Out",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Lock Players Out",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Lock Out",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Lock Players Out",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Lock Players In",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Lock Players In",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Lock In",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Seated Player",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Seated Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Unseat Player",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Unseat Player",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Unseat Player",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Seated Player Changed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Seated Player Changed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "New Seated Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "SharedGameAI": {
+            "paletteName": "Shared Game AI",
+            "chipName": "Shared Game AI",
+            "description": "Shared Game AI's brain and audio location. As opposed to regular Game AI, all players in a room share the same context. Check Game AI in Room Settings for information about usage costs.",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": true,
+            "requiredChips": 7,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Shared Game AI"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Send System Prompt with Response",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Send System Prompt with Response",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Prompt",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Immediate",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "On Audio Finished",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Response",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Send User Prompt with Response",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Send User Prompt with Response",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Prompt",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Immediate",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "On Audio Finished",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Response",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Clear Context",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Clear Context",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Immediate",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "On Cleared",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "SnapPoint": {
+            "paletteName": "Snap Point",
+            "chipName": "Element Snap Point",
+            "description": "",
+            "isBetaChip": true,
+            "isValidInRoom1": false,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 5,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Snap Point"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Snapped",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Snapped",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Other Snap Point",
+                            "type": "Snap Point",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Unsnapped",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Unsnapped",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Other Snap Point",
+                            "type": "Snap Point",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Spotlight": {
+            "paletteName": "Spotlight",
+            "chipName": "Spotlight",
+            "description": "Shines light in a circle like a flashlight.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 10,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Spotlight"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Turn On",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Turn Off",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Range",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Range",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Range",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Range",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Intensity",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Intensity",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Intensity",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Intensity",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Angle",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Angle",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Angle",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Angle",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "SunDirection": {
+            "paletteName": "Sun Direction",
+            "chipName": "Sun Direction",
+            "description": "Arrow direction determines sun direction. Used with Room Sun Modify and Sun Constant Chips.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 3,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Sun Direction"
+                    ]
+                }
+            ],
+            "nodeDescs": []
+        },
+        "SwingHandle": {
+            "paletteName": "Swing Handle",
+            "chipName": "Swing Handle",
+            "description": "",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 22,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Swing Handle"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "On Pickup",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Pickup",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Release",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Release",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Data",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Held",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Holder Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Swing Start",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Swing Start",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Swing Update",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Swing Update",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Swing End",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Swing End",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Swinging",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Swinging",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Play Handle Haptics",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Play Handle Haptics",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Text": {
+            "paletteName": "Text",
+            "chipName": "Text",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 7,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Text"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Set Text",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Text",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Text",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Text",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Material",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Material",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Material",
+                            "type": "int",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Text2D": {
+            "paletteName": "Text 2D",
+            "chipName": "Text 2D",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 6,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Text 2D"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Set Text",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Text",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Text",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Text",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "TextScreen": {
+            "paletteName": "Text Screen",
+            "chipName": "Text Screen",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 6,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Text Screen"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Print Text",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Print Text",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Text",
+                            "type": "string",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Print Text",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Clear Screen",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Clear Screen",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Clear Screen",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "AnimationController": {
+            "paletteName": "Animation Controller",
+            "chipName": "Animation Controller",
+            "description": "Animate objects that are wired to this controller. Edit to animate. Room level objects only.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 10,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Animation Controller"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Play",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Pause",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Pause",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Pause",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Speed",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Speed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Speed",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Speed",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Finished",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Finished",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Playing",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Playing",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "AudioPlayer": {
+            "paletteName": "Audio Player",
+            "chipName": "Audio Player",
+            "description": "Play Audio from Sample, Music SFX, or Custom Audio Constants.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 13,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Audio Player"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Play",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Audio",
+                            "type": "Audio",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Finished",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Pause",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Pause",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Pause",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Volume",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Volume",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Volume",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Volume",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Volume",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Playback Speed",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Playback Speed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Playback Speed",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Playback Speed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Playback Speed",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Time Stamp",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Time Stamp",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "AvatarItemDisplay": {
+            "paletteName": "Avatar Item Display",
+            "chipName": "Avatar Item Display",
+            "description": "Use this to display avatar items.",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 5,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Avatar Item Display"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Set Avatar Item",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Avatar Item",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Avatar Item",
+                            "type": "Avatar Item",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "|",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Beacon": {
+            "paletteName": "Beacon",
+            "chipName": "Beacon",
+            "description": "Beam with circuit-driven color and height.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 11,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Beacon"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Enable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Disable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Height",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Height",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Height",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Height",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Height",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Properties",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Enabled",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Height",
+                            "type": "float",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Button": {
+            "paletteName": "Button",
+            "chipName": "Button",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 9,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Button"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Pressed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Released",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Released",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Pressed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Pressed",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "CollisionDetectionVolume": {
+            "paletteName": "Collision Detection Volume",
+            "chipName": "Collision Detection Volume",
+            "description": "A trigger volume used for detecting collisions at high speeds.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 56,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Collision Detection Volume"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Set Enabled",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Player Hit",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Impulse Players On Hit",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player Impulse Velocity",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "On Player Hit",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collision Data",
+                            "type": "Collision Data",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collider Velocity",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Object Hit",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Impulse Objects On Hit",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object Impulse Multiplier",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "On Object Hit",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collision Data",
+                            "type": "Collision Data",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collider Velocity",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Other Hit",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Other Hit",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collision Data",
+                            "type": "Collision Data",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collider Velocity",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Any Hit",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Any Hit",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collision Data",
+                            "type": "Collision Data",
+                            "description": ""
+                        },
+                        {
+                            "name": "Collider Velocity",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Settings",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Impulsing Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": []
+                }
+            ]
+        },
+        "DialogueUI": {
+            "paletteName": "Dialogue UI",
+            "chipName": "Dialogue UI",
+            "description": "The Dialogue UI Component is a floating text box with some optional labels, an optional directional affordance, and up to four buttons.",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 16,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Dialogue UI"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Set Dialogue UI Is Enabled",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Title",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Title",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Title Text",
+                            "type": "string",
+                            "description": ""
+                        },
+                        {
+                            "name": "Is Enabled",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Title",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Text",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Text",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Body Text",
+                            "type": "string",
+                            "description": ""
+                        },
+                        {
+                            "name": "Is Interactive",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Text",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Text Finished Animating",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Text Finished Animating",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Button State",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Button State",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 1 Enabled",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 1 Text",
+                            "type": "string",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 2 Enabled",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 2 Text",
+                            "type": "string",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 3 Enabled",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 3 Text",
+                            "type": "string",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 4 Enabled",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 4 Text",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Button State",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Clear Button State",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Clear Button State",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Clear Button State",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Is Enabled",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Enabled",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Events",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Next Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 1 Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 2 Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 3 Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Button 4 Pressed",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "DomeLight": {
+            "paletteName": "Dome Light",
+            "chipName": "Dome Light",
+            "description": "Creates light in a dome around the gadget.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 11,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Dome Light"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Turn On",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Turn Off",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Range",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Range",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Range",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Range",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Intensity",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Intensity",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Intensity",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Intensity",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Angle",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Angle",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Angle",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Angle",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Softness",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Softness",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Softness",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Softness",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Emitter": {
+            "paletteName": "Emitter",
+            "chipName": "Emitter",
+            "description": "Plays a configurable, looping particle effect.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 10,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Emitter"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Start",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Start",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Start",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Looping",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Looping",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Looping",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Looping",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Size",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Size",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Size",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Size",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Speed",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Speed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Speed",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Speed",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "ExplosionEmitter": {
+            "paletteName": "Explosion Emitter",
+            "chipName": "Explosion Emitter",
+            "description": "Plays a one-shot explosion particle effect.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 8,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Explosion Emitter"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Explode",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Explode",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Explode",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Damage",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Damage",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Damage",
+                            "type": "int",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Damage",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Radius",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Radius",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Radius",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Radius",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "GameAI": {
+            "paletteName": "Game AI",
+            "chipName": "Game AI",
+            "description": "Game AI's brain and audio location. Use with the Game AI chipset. Check Game AI in Room Settings for information about usage costs.",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": true,
+            "requiredChips": 7,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Game AI"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Send System Prompt with Response",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Send System Prompt with Response",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Prompt",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Immediate",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "On Audio Finished",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Response",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Send User Prompt with Response",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Send User Prompt with Response",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Prompt",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Immediate",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "On Audio Finished",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Response",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Clear Context",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Clear Context",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Immediate",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "On Cleared",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Grabber": {
+            "paletteName": "Grabber",
+            "chipName": "Grabber",
+            "description": "Grabs the specified object, optionally snapping it to the Grabber's position, and releases it on command. Configure for additional options.",
+            "isBetaChip": false,
+            "isValidInRoom1": false,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 10,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Grabber"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Grab Object",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Grab Object",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        },
+                        {
+                            "name": "Steal From Player",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Snap To Grabber",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Grab",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Success",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object Grab Action",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Grabbed Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Grabber Release",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Release",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Release",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object Dropped",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object Release Action",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Released Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Grabber Get Held Object",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Has Held Object",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Held Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stolen Object From The Grabber",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Stolen Object Action",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Stolen Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "GunHandle": {
+            "paletteName": "Gun Handle",
+            "chipName": "Gun Handle",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 32,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Gun Handle"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "On Gun Fire",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Projectile Origin Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "On Gun Fire",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Firing Direction",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reload Started",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Reload Started",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reload Completed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Reload Completed",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reload Cancelled",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Reload Cancelled",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Reloading",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Reloading",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reload Action Raw Outputs",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Reload Action Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Reload Action Released",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Reload Action Held",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Primary Action Raw Outputs",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Primary Action Pressed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Primary Action Released",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Primary Action Held",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Pickup",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Pickup",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Release",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Release",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Data",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Currently Equipped",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "HolotarProjector": {
+            "paletteName": "Holotar Projector",
+            "chipName": "Holotar Projector",
+            "description": "",
+            "isBetaChip": true,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 8,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Holotar Projector"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Play",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Holotar",
+                            "type": "Holotar Recording",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Volume",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Volume",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Volume",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Volume",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Time",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Current Time",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Time(s)",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Current Time",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "InteractionVolume": {
+            "paletteName": "Interaction Volume",
+            "chipName": "Interaction Volume",
+            "description": "Interaction Volume that supports hold interaction.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 15,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Interaction Volume"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "On Use or Hold Completed",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Use or Hold Completed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player who used",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Hold Cancelled",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Hold Cancelled",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Hold Start",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Hold Start",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Hold Update",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Hold Update",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Hold End",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Hold End",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Hold Progress from 0 to 1",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Hold Progress from 0 to 1",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Hover Start",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Hover Start",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Hover End",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Hover End",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Locked",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Locked",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Is Locked",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Locked",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Is Locked",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Interaction Prompt",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Interaction Prompt",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Interaction Prompt",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Interaction Prompt",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Interaction Prompt",
+                            "type": "string",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "InvisibleCollision": {
+            "paletteName": "Invisible Collision",
+            "chipName": "Invisible Collision",
+            "description": "Prevents players / objects from entering a region (also, you can't see it).",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 7,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Invisible Collision"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Enable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Disable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Enabled",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Enabled",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "LaserPointer": {
+            "paletteName": "Laser Pointer",
+            "chipName": "Laser Pointer",
+            "description": "A beam of colored light.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 8,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Laser Pointer"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Enable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Disable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Length",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Length",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Length",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Length",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "LeaderboardProjector": {
+            "paletteName": "Leaderboard Projector",
+            "chipName": "Leaderboard Projector",
+            "description": "Displays a leaderboard for your room.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 6,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Leaderboard Projector"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Turn On",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Turn Off",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "MotionTrail": {
+            "paletteName": "Motion Trail",
+            "chipName": "Motion Trail",
+            "description": "Generates a motion trail when attached to moving objects.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 7,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Motion Trail"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Turn On",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Turn Off",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Pathfinder": {
+            "paletteName": "Pathfinder",
+            "chipName": "Pathfinder",
+            "description": "Uses a NavMesh to move around the room.",
+            "isBetaChip": false,
+            "isValidInRoom1": false,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 26,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Pathfinder"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Pathing",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Start Pathing to Position",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Target Position",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Slowdown Distance",
+                            "type": "float",
+                            "description": ""
+                        },
+                        {
+                            "name": "Desired Distance",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Start Pathing to Position",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Target Position",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Is Pathing",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Has Pathing Arrived",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Within Slowdown Distance",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Current Position",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Current Speed",
+                            "type": "float",
+                            "description": ""
+                        },
+                        {
+                            "name": "Pathing Arrived",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Pathing Slowdown Arrived",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop Pathing",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop Pathing",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop Pathing",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Rotation",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Start Rotating to Direction",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Target Direction",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Slowdown Angle",
+                            "type": "float",
+                            "description": ""
+                        },
+                        {
+                            "name": "Desired Angle",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Start Rotating to Direction",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Target Direction",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Is Rotating",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Has Rotation Arrived",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Current Direction",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Rotation Arrived",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop Rotating",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop Rotating",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop Rotating",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Apply Settings",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Apply Settings",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Max Linear Speed",
+                            "type": "float",
+                            "description": ""
+                        },
+                        {
+                            "name": "Max Angular Speed",
+                            "type": "float",
+                            "description": ""
+                        },
+                        {
+                            "name": "Max Acceleration",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Apply Settings",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Authority",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Authority",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Authority",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Local Player Has Authority",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Authority Respawn",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Authority Respawn",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Position",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Rotation",
+                            "type": "Quaternion",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Authority Respawn",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Piston": {
+            "paletteName": "Piston",
+            "chipName": "Piston",
+            "description": "Moves objects wired to it.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 13,
+            "filters": [
+                {
+                    "FilterPath": ["Objects", "Circuit Components", "Piston"]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Play",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Play",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Stop",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reverse",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Reverse",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Reverse",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Finished",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Finished",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Parameters",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Speed",
+                            "type": "float",
+                            "description": ""
+                        },
+                        {
+                            "name": "Max Distance",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Distance",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "PointLight": {
+            "paletteName": "Point Light",
+            "chipName": "Point Light",
+            "description": "Shines light in all directions like a light bulb.",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 9,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Point Light"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Turn On",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn On",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Turn Off",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Turn Off",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Range",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Range",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Range",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Range",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Set Intensity",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Intensity",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Intensity",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Intensity",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "ProjectileLauncher": {
+            "paletteName": "Projectile Launcher",
+            "chipName": "Projectile Launcher",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 13,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Projectile Launcher"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Fire In Direction",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Fire In Direction",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Direction",
+                            "type": "Vector3",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Fire In Direction",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Fire Forward",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Fire Forward",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Fire Forward",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Speed",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Speed",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Speed",
+                            "type": "float",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Speed",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Damage",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Damage",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player Head",
+                            "type": "int",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player Torso",
+                            "type": "int",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player Limb",
+                            "type": "int",
+                            "description": ""
+                        },
+                        {
+                            "name": "Rec Room Object",
+                            "type": "int",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Damage",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Color",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Color",
+                            "type": "Color",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Set Color",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "Replicator": {
+            "paletteName": "Replicator",
+            "chipName": "Replicator",
+            "description": "Dynamically spawn copies of the target object.",
+            "isBetaChip": true,
+            "isValidInRoom1": false,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 8,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Replicator"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Spawn Next Object",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Spawn Next Object",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Position",
+                            "type": "Vector3",
+                            "description": ""
+                        },
+                        {
+                            "name": "Orientation",
+                            "type": "Quaternion",
+                            "description": ""
+                        },
+                        {
+                            "name": "Assign to Player",
+                            "type": "bool",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Run",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Object Spawned",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Spawned Object",
+                            "type": "Rec Room Object",
+                            "description": ""
+                        },
+                        {
+                            "name": "Success",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Return All Objects",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Return All Objects",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Run",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Active Object List",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Active Object List",
+                            "type": "List<Rec Room Object>",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Active Object Count",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Active Object Count",
+                            "type": "int",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "RespawnPoint": {
+            "paletteName": "Respawn Point",
+            "chipName": "Respawn Point",
+            "description": "",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": true,
+            "isDevChip": false,
+            "requiredChips": 7,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Objects",
+                        "Circuit Components",
+                        "Respawn Point"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Enable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Enable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Disable",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Disable",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Active",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Is Active",
+                            "type": "bool",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        "FullBodyCostumeDummy": {
+            "paletteName": "Full Body Costume Dummy",
+            "chipName": "Full Body Costume Dummy",
+            "description": "Costume dummy with limbs. Edit a body part to add shapes!",
+            "isBetaChip": false,
+            "isValidInRoom1": true,
+            "isValidInRoom2": false,
+            "isDevChip": false,
+            "requiredChips": 11,
+            "filters": [
+                {
+                    "FilterPath": [
+                        "Components",
+                        "Circuit Components",
+                        "Full Body Costume Dummy"
+                    ]
+                }
+            ],
+            "nodeDescs": [
+                {
+                    "name": "Equip To",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Equip To",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Equip To",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Unequip",
+                    "typeParams": [],
+                    "inputs": [
+                        {
+                            "name": "Unequip",
+                            "type": "exec",
+                            "description": ""
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Unequip",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "From Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Equip",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Equip",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "On Unequip",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "On Unequip",
+                            "type": "exec",
+                            "description": ""
+                        },
+                        {
+                            "name": "Player",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Wearer",
+                    "typeParams": [],
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "Worn By",
+                            "type": "Player",
+                            "description": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
