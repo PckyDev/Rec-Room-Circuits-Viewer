@@ -1,9 +1,3 @@
-.editor {
-  display: flex;
-  height: 100vh;
-  background-color: var(--rr-color-gradient-light);
-}
-
 .editor .graph-viewport {
   position: relative;
   width: 100%;
@@ -32,8 +26,18 @@
   will-change: transform;
 }
 
+/* GRAPH CHIPS */
+
 .editor .graph-viewport .graph-canvas .chip {
   position: absolute;
   transform: translate(-50%, -50%);
+}
+
+.editor .graph-viewport .graph-canvas .chip:not(.grabbing):hover {
+  cursor: grab;
+}
+
+.editor .graph-viewport .graph-canvas .chip.grabbing {
+  cursor: grabbing;
 }
 

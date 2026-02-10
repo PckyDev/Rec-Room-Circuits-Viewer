@@ -190,7 +190,7 @@ $(function () {
 						// Load click event for chips
 						chipElement.on('click', async function () {
 							// await chip.render($('#render'), chipData, { size: 1, log: true });
-							await _.graph.functions.addNode(chipData);
+							await _.graph.node.add(chipData);
 						});
 					}
 				},
@@ -269,7 +269,7 @@ $(function () {
 				_.graph.functions.requestRender();
 
 				// For testing: add a node to the center of the graph
-				// await _.graph.functions.addNode('Add Tag');
+				// await _.graph.node.add('Add Tag');
 			},
 			functions: {
 				clamp: (v, a, b) => {
@@ -311,30 +311,6 @@ $(function () {
 					vpEl.style.setProperty('--grid-x', `${mod(_.graph.data.cameraState.tx, majorPx)}px`);
 					vpEl.style.setProperty('--grid-y', `${mod(_.graph.data.cameraState.ty, majorPx)}px`);
 				},
-				addNode: async (node) => {
-					let nodeHTML = await chip.render(null, node, { log: false, autoFit: false });
-					if (nodeHTML) {
-					nodeHTML = nodeHTML.replace('class="chip', 'id="node-' + _.graph.data.nodes.length + '" class="chip');
-						$(_.graph.data.elements.graphCanvas.element).append(nodeHTML);
-						const nodeElement = $(_.graph.data.elements.graphCanvas.element).find('#node-' + _.graph.data.nodes.length);
-						const nodeObject = {
-							id: 'node-' + _.graph.data.nodes.length,
-							element: nodeElement,
-						}
-						_.graph.data.nodes.push(nodeObject);
-
-						// Set position of new node to center of viewport
-						const vpEl = _.graph.data.elements.graphCanvasViewport.element;
-						if (vpEl) {
-							const centerX = (vpEl.clientWidth * 0.5 - _.graph.data.cameraState.tx) / _.graph.data.cameraState.scale;
-							const centerY = (vpEl.clientHeight * 0.5 - _.graph.data.cameraState.ty) / _.graph.data.cameraState.scale;
-							nodeElement.css('left', centerX + 'px');
-							nodeElement.css('top', centerY + 'px');
-						}
-					} else {
-						console.warn('Failed to render chip for node:', node);
-					}
-				}
 			},
 			load: {
 				elements: async () => {
@@ -425,6 +401,113 @@ $(function () {
 
 						vpEl.addEventListener('contextmenu', (e) => {
 							e.preventDefault();
+						});
+					}
+				}
+			},
+			node: {
+				add: async (node) => {
+					let nodeHTML = await chip.render(null, node, { log: false, autoFit: false });
+					if (nodeHTML) {
+
+						nodeHTML = nodeHTML.replace('class="chip', 'id="node-' + _.graph.data.nodes.length + '" class="chip');
+						$(_.graph.data.elements.graphCanvas.element).append(nodeHTML);
+						const nodeElement = $(_.graph.data.elements.graphCanvas.element).find('#node-' + _.graph.data.nodes.length);
+						const nodeObject = {
+							id: 'node-' + _.graph.data.nodes.length,
+							element: nodeElement,
+						}
+						_.graph.data.nodes.push(nodeObject);
+
+						// Set position of new node to center of viewport
+						const vpEl = _.graph.data.elements.graphCanvasViewport.element;
+						if (vpEl) {
+							const centerX = (vpEl.clientWidth * 0.5 - _.graph.data.cameraState.tx) / _.graph.data.cameraState.scale;
+							const centerY = (vpEl.clientHeight * 0.5 - _.graph.data.cameraState.ty) / _.graph.data.cameraState.scale;
+							nodeElement.css('left', centerX + 'px');
+							nodeElement.css('top', centerY + 'px');
+						}
+
+						// Make the node draggable
+						_.graph.node.setDragHandler(nodeElement);
+
+					} else {
+						console.warn('Failed to render chip for node:', node);
+					}
+				},
+				setPosition: async (node, x, y) => {
+					let nodeElement = null;
+					if (typeof node === 'string' && node.startsWith('node-')) {
+						nodeElement = _.graph.data.nodes.find(n => n.id === node)?.element;
+					} else if (node instanceof Element) {
+						nodeElement = $(node);
+					} else if (node instanceof jQuery && node.length > 0) {
+						nodeElement = node;
+					} else {
+						console.warn('Invalid node identifier:', node);
+						return;
+					}
+
+					if (nodeElement) {
+						// Node CSS left/top are in world coordinates (the graphCanvas is transformed),
+						// so set them directly to avoid drift/jumps across zoom levels.
+						nodeElement.css('left', x + 'px');
+						nodeElement.css('top', y + 'px');
+					} else {
+						console.warn('Node element not found for:', node);
+					}
+				},
+				setDragHandler: async (node) => {
+					let nodeElement = null;
+					if (typeof node === 'string' && node.startsWith('node-')) {
+						nodeElement = _.graph.data.nodes.find(n => n.id === node)?.element;
+					} else if (node instanceof Element) {
+						nodeElement = $(node);
+					} else if (node instanceof jQuery && node.length > 0) {
+						nodeElement = node;
+					} else {
+						console.warn('Invalid node identifier:', node);
+						return;
+					}
+
+					if (nodeElement) {
+						let isDragging = false;
+						let lastX = 0;
+						let lastY = 0;
+
+						nodeElement.on('mousedown', function (e) {
+							if (e.which !== 1) return; // Only left mouse button
+							e.preventDefault();
+							isDragging = true;
+							lastX = e.clientX;
+							lastY = e.clientY;
+							nodeElement.addClass('dragging');
+
+							// Bring the dragged node to the front by moving it to the end of the container
+							nodeElement.appendTo(nodeElement.parent());
+						});
+
+						$(window).on('mousemove', function (e) {
+							if (!isDragging) return;
+							const dx = e.clientX - lastX;
+							const dy = e.clientY - lastY;
+							lastX = e.clientX;
+							lastY = e.clientY;
+
+							// Convert screen-space mouse movement to world-space movement.
+							const scale = _.graph.data.cameraState.scale || 1;
+							const worldDx = dx / scale;
+							const worldDy = dy / scale;
+
+							const currentLeft = parseFloat(nodeElement.css('left')) || 0;
+							const currentTop = parseFloat(nodeElement.css('top')) || 0;
+							_.graph.node.setPosition(nodeElement, currentLeft + worldDx, currentTop + worldDy);
+						});
+
+						$(window).on('mouseup', function (e) {
+							if (!isDragging) return;
+							isDragging = false;
+							nodeElement.removeClass('dragging');
 						});
 					}
 				}
