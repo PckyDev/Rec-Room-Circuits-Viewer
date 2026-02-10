@@ -62,7 +62,7 @@
   display: none;
 }
 
-.connected .port-hover .disconnect {
+.connected:not(.cannot-connect) .port-hover .disconnect {
   display: block;
 }
 
