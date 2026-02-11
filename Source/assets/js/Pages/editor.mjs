@@ -280,6 +280,8 @@ $(function () {
 				BASE_MINOR: 25,
 				rafPending: false,
 				_nextNodeId: 0,
+				_nodeClipboard: null,
+				_pasteSerial: 0,
 				nodes: [],
 				// Example node object structure:
 				// {
@@ -340,6 +342,8 @@ $(function () {
 
 				// Enable Backspace/Delete to remove selected nodes.
 				_.graph.node.setNodeDeletionHandler();
+				// Enable Ctrl/Cmd+C/V/X for selected nodes.
+				_.graph.node.setCopyPasteHandler();
 
 				// For testing: add a node to the center of the graph
 				// await _.graph.node.add('Add Tag');
@@ -1260,6 +1264,79 @@ $(function () {
 					_.graph.data.connections = kept;
 					_.graph.functions.updateConnections();
 				},
+				addConnection: (fromNodeId, fromPortId, toNodeId, toPortId) => {
+					if (!fromNodeId || !fromPortId || !toNodeId || !toPortId) return false;
+
+					const layer = _.graph.functions._ensureWireLayer();
+					if (!layer) return false;
+
+					const fromPortEl0 = _.graph.functions._findPortEl(fromNodeId, fromPortId);
+					const toPortEl0 = _.graph.functions._findPortEl(toNodeId, toPortId);
+					if (!fromPortEl0 || !toPortEl0) return false;
+
+					let from = { nodeId: fromNodeId, portId: fromPortId, role: _.graph.functions._getPortRole(fromPortEl0) };
+					let to = { nodeId: toNodeId, portId: toPortId, role: _.graph.functions._getPortRole(toPortEl0) };
+
+					// Normalize direction: output -> input
+					if (from.role !== 'output' && to.role === 'output') {
+						[from, to] = [to, from];
+					}
+
+					const fromPortEl = _.graph.functions._findPortEl(from.nodeId, from.portId);
+					const toPortEl = _.graph.functions._findPortEl(to.nodeId, to.portId);
+					if (!fromPortEl || !toPortEl) return false;
+
+					from.role = _.graph.functions._getPortRole(fromPortEl);
+					to.role = _.graph.functions._getPortRole(toPortEl);
+					if (from.role && to.role && !(from.role === 'output' && to.role === 'input')) return false;
+
+					// No duplicate connections.
+					if ((_.graph.data.connections || []).some(c => c?.from?.nodeId === from.nodeId && c?.from?.portId === from.portId && c?.to?.nodeId === to.nodeId && c?.to?.portId === to.portId)) {
+						return false;
+					}
+
+					// Enforce exec-only connections.
+					const fromIsExec = _.graph.functions._isExecPortEl(fromPortEl);
+					const toIsExec = _.graph.functions._isExecPortEl(toPortEl);
+					if (fromIsExec !== toIsExec) return false;
+
+					// Enforce type compatibility.
+					const fromTypeInfo = _.graph.functions._getAllowedTypeSetForPort(from.nodeId, from.portId, fromPortEl);
+					const toTypeInfo = _.graph.functions._getAllowedTypeSetForPort(to.nodeId, to.portId, toPortEl);
+					if (!_.graph.functions._areTypesCompatible(fromTypeInfo, toTypeInfo)) return false;
+
+					// Enforce: data (non-exec) input ports can have only 1 incoming connection.
+					if (to.role === 'input' && !toIsExec) {
+						_.graph.functions.removeConnectionsToPort(to.nodeId, to.portId);
+					}
+
+					// Enforce: exec output ports can have only 1 connection.
+					if (from.role === 'output' && fromIsExec) {
+						_.graph.functions.removeConnectionsFromPort(from.nodeId, from.portId);
+					}
+
+					const svgNS = 'http://www.w3.org/2000/svg';
+					const path = document.createElementNS(svgNS, 'path');
+					path.setAttribute('fill', 'none');
+					const stroke = _.graph.functions._getWireStrokeForPorts(fromPortEl, toPortEl) || '#b7c7ff';
+					path.setAttribute('stroke', stroke);
+					path.setAttribute('stroke-width', String(_.graph.functions._getWireStrokeWidth()));
+					path.setAttribute('stroke-linecap', 'round');
+					path.setAttribute('opacity', '0.95');
+					path.style.filter = `drop-shadow(0 0 4px ${_.graph.functions._colorWithAlpha(stroke, 0.35)})`;
+					layer.wiresGroup.appendChild(path);
+
+					const connection = {
+						id: 'connection-' + (_.graph.data.connections?.length || 0),
+						from: { nodeId: from.nodeId, portId: from.portId },
+						to: { nodeId: to.nodeId, portId: to.portId },
+						element: path
+					};
+					if (!_.graph.data.connections) _.graph.data.connections = [];
+					_.graph.data.connections.push(connection);
+					_.graph.functions.updateConnections();
+					return true;
+				},
 				startConnection: (fromNodeId, fromPortId, startEvent) => {
 					const layer = _.graph.functions._ensureWireLayer();
 					if (!layer) return;
@@ -2002,10 +2079,165 @@ $(function () {
 
 						// Ensure the deletion handler is installed.
 						_.graph.node.setNodeDeletionHandler();
+						// Ensure copy/paste handler is installed.
+						_.graph.node.setCopyPasteHandler();
+
+						return nodeObject;
 
 					} else {
 						console.warn('Failed to render chip for node:', node);
+						return null;
 					}
+				},
+				_copySelectedNodesToClipboard: () => {
+					const selected = _.graph.functions.getSelectedNodes?.() || [];
+					if (selected.length === 0) return false;
+
+					const nodes = [];
+					let minX = Infinity;
+					let minY = Infinity;
+
+					for (const n of selected) {
+						const leftRaw = n?.element?.css?.('left');
+						const topRaw = n?.element?.css?.('top');
+						const x = Number.parseFloat(String(leftRaw || '0')) || 0;
+						const y = Number.parseFloat(String(topRaw || '0')) || 0;
+
+						minX = Math.min(minX, x);
+						minY = Math.min(minY, y);
+
+						nodes.push({
+							oldId: n.id,
+							payload: n.object ?? null,
+							x,
+							y
+						});
+					}
+
+					const selectedSet = new Set(selected.map(n => n.id));
+					const connections = (_.graph.data.connections || [])
+						.filter(c => selectedSet.has(c?.from?.nodeId) && selectedSet.has(c?.to?.nodeId))
+						.map(c => ({
+							fromNodeId: c.from.nodeId,
+							fromPortId: c.from.portId,
+							toNodeId: c.to.nodeId,
+							toPortId: c.to.portId
+						}));
+
+					_.graph.data._nodeClipboard = {
+						createdAt: Date.now(),
+						nodes: nodes.map(n => ({
+							oldId: n.oldId,
+							payload: n.payload,
+							relX: n.x - minX,
+							relY: n.y - minY
+						})),
+						connections
+					};
+
+					return true;
+				},
+				_pasteClipboard: async () => {
+					const clip = _.graph.data._nodeClipboard;
+					if (!clip || !Array.isArray(clip.nodes) || clip.nodes.length === 0) return false;
+
+					const vpEl = _.graph.data.elements.graphCanvasViewport.element;
+					if (!vpEl) return false;
+
+					// Paste near viewport center, with a small incremental offset.
+					const centerX = (vpEl.clientWidth * 0.5 - _.graph.data.cameraState.tx) / _.graph.data.cameraState.scale;
+					const centerY = (vpEl.clientHeight * 0.5 - _.graph.data.cameraState.ty) / _.graph.data.cameraState.scale;
+					const serial = Number(_.graph.data._pasteSerial || 0) + 1;
+					_.graph.data._pasteSerial = serial;
+					const delta = 20 * serial;
+					const baseX = centerX + delta;
+					const baseY = centerY + delta;
+
+					// Deselect existing nodes so pasted nodes become the active selection.
+					for (const n of (_.graph.data.nodes || [])) {
+						if (n?.selected) _.graph.functions.deselectNode(n.element);
+					}
+
+					const idMap = new Map();
+					const newIds = [];
+
+					for (const n of clip.nodes) {
+						const payload = n.payload ?? null;
+						// Prefer chipName when available; otherwise fall back to full object payload.
+						const addArg = payload?.chipName ? payload.chipName : payload;
+						const created = await _.graph.node.add(addArg);
+						if (!created?.id) continue;
+
+						idMap.set(n.oldId, created.id);
+						newIds.push(created.id);
+
+						await _.graph.node.setPosition(created.id, baseX + (Number(n.relX) || 0), baseY + (Number(n.relY) || 0));
+					}
+
+					// Recreate internal connections.
+					for (const c of (clip.connections || [])) {
+						const fromNodeId = idMap.get(c.fromNodeId);
+						const toNodeId = idMap.get(c.toNodeId);
+						if (!fromNodeId || !toNodeId) continue;
+						_.graph.functions.addConnection?.(fromNodeId, c.fromPortId, toNodeId, c.toPortId);
+					}
+
+					// Select pasted nodes.
+					for (const id of newIds) {
+						_.graph.functions.selectNode(id);
+					}
+
+					_.graph.functions.updateConnections?.();
+					return true;
+				},
+				setCopyPasteHandler: () => {
+					if (_.graph.data._copyPasteHandlerInstalled) return;
+					_.graph.data._copyPasteHandlerInstalled = true;
+
+					const handler = (e) => {
+						// Don't interfere while dragging a connection.
+						if (_.graph.data._connectionDrag?.active) return;
+
+						// Ignore while typing in inputs.
+						const ae = document.activeElement;
+						const tag = String(ae?.tagName || '').toLowerCase();
+						const isTyping = tag === 'input' || tag === 'textarea' || ae?.isContentEditable;
+						if (isTyping) return;
+
+						const ctrlOrCmd = !!(e.ctrlKey || e.metaKey);
+						if (!ctrlOrCmd) return;
+
+						const key = String(e.key || '').toLowerCase();
+						if (key !== 'c' && key !== 'v' && key !== 'x') return;
+
+						if (key === 'c') {
+							const did = _.graph.node._copySelectedNodesToClipboard();
+							if (!did) return;
+							e.preventDefault();
+							e.stopPropagation();
+							return;
+						}
+
+						if (key === 'x') {
+							const did = _.graph.node._copySelectedNodesToClipboard();
+							if (!did) return;
+							e.preventDefault();
+							e.stopPropagation();
+							const selected = _.graph.functions.getSelectedNodes?.() || [];
+							const ids = selected.map(n => n.id);
+							for (const id of ids) _.graph.functions.deleteNode(id);
+							return;
+						}
+
+						// Paste
+						if (!_.graph.data._nodeClipboard) return;
+						e.preventDefault();
+						e.stopPropagation();
+						Promise.resolve(_.graph.node._pasteClipboard()).catch(() => { /* ignore */ });
+					};
+
+					window.addEventListener('keydown', handler, true);
+					_.graph.data._copyPasteHandler = handler;
 				},
 				setNodeDeletionHandler: () => {
 					if (_.graph.data._nodeDeletionHandlerInstalled) return;
