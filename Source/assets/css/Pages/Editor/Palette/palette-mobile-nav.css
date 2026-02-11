@@ -1,0 +1,33 @@
+.mobile-nav {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4rem;
+  background-color: var(--rr-color-bg-primary);
+  box-shadow: 0 0 1rem 0 rgba(0,0,0,0.125);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: .25rem;
+}
+
+.mobile-nav .rr-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: .5rem 1.5rem;
+}
+
+.mobile-nav .rr-btn > svg {
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+}
+
+.mobile-nav .rr-btn > span {
+  font-size: .75rem;
+  line-height: 0.5rem;
+  opacity: .75;
+}
+

@@ -1,0 +1,89 @@
+.rr-btn {
+  font-family: 'Roboto';
+  display: block;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--rr-color-text-primary);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  background-clip: padding-box;
+  /*border: calc(var(--rr-border-width) * -2) solid var(--rr-color-outline);*/
+  border: none;
+  /*box-shadow: inset 0 0 0 4rem white;*/
+  border-radius: calc(var(--rr-border-radius) * 1.5);
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  transition: transform .2s;
+}
+
+.rr-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transition: .2s;
+  background-color: var(--rr-color-bg-secondary);
+  pointer-events: none;
+}
+
+.rr-btn:not(.no-border)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--rr-border-width) rgba(255,255,255,0.125);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.rr-btn.disabled {
+  cursor: default;
+  pointer-events: none;
+  filter: brightness(.75);
+  opacity: .75;
+}
+
+.rr-btn:hover::before {
+  filter: brightness(.75);
+}
+
+.rr-btn:active::before {
+  filter: brightness(.65);
+}
+
+.rr-btn:active {
+  transition: 0.05s;
+  transform: scale(.9);
+}
+
+.rr-btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* COLORS */
+
+.rr-btn.orange::before {
+  background-color: var(--rr-color-orange);
+}
+
+.rr-btn.orange > * {
+  color: var(--rr-color-text-light);
+}
+
+.rr-btn.transparent::before {
+  background-color: rgba(0,0,0,0);
+}
+
+.rr-btn.transparent:hover::before {
+  background-color: rgba(0,0,0,0.25);
+}
+
+.rr-btn.transparent > * {
+  color: var(--rr-color-text-light);
+}
+

@@ -5,12 +5,24 @@ import { chip } from '../Modules/chip.mjs';
 $(function () {
 	const _ = {
 		data: {
+			mobile: {
+				breakpoint: 576,
+				isMobile: $(window).width() < 576,
+				nav: {
+					paletteOpenMobileBtn: {
+						id: 'paletteOpenMobile',
+						element: null,
+						clickTrigger: 'openPalette'
+					}
+				}
+			},
 			renderElement: null,
 			selectedChipData: null,
 			chipsJSON: {}
 		},
 		init: async () => {
 			await ui.init.inputs();
+			await _.load.mobile();
 			await chip.init();
 			await chip.getAll({ combineResults: true }).then(data => {
 				_.data.chipsJSON = data;
@@ -67,6 +79,7 @@ $(function () {
 				await _.palette.load.chips();
 				await _.palette.load.searchInput();
 				await _.palette.load.resizeBar();
+				await _.palette.load.openEvent();
 			},
 			functions: {
 				resize: async (newWidth) => {
@@ -187,6 +200,10 @@ $(function () {
 						chipElement.on('click', async function () {
 							// await chip.render($('#render'), chipData, { size: 1, log: true });
 							await _.graph.node.add(chipData);
+
+							if (_.data.mobile.isMobile) {
+								$('body').trigger('openPalette');
+							}
 						});
 					}
 				},
@@ -208,6 +225,7 @@ $(function () {
 
 					$(document).on('mousemove', function (e) {
 						if (!isResizing) return;
+						if (_.data.mobile.isMobile) return; // Disable resizing on mobile for now
 						const newWidth = e.clientX;
 						_.palette.functions.resize(newWidth);
 					});
@@ -217,7 +235,18 @@ $(function () {
 							isResizing = false;
 						}
 					});
-				}
+				},
+				openEvent: async () => {
+					$('body').on('openPalette', function () {
+						const paletteWindow = $('#' + _.palette.data.paletteWindowId);
+						if (paletteWindow.hasClass('open')) {
+							paletteWindow.removeClass('open');
+						} else {
+							paletteWindow.addClass('open');
+						}
+						_.palette.functions.resize(paletteWindow.width());
+					});
+				},
 			},
 		},
 		graph: {
@@ -1155,6 +1184,8 @@ $(function () {
 						y: (startEvent && typeof startEvent.clientY === 'number') ? startEvent.clientY : null
 					};
 
+					const startPointerId = (startEvent && startEvent.pointerId != null) ? startEvent.pointerId : null;
+
 					const drag = {
 						active: true,
 						from: { nodeId: fromNodeId, portId: fromPortId },
@@ -1162,12 +1193,14 @@ $(function () {
 						hasExistingConnection,
 						didMove: false,
 						startClient,
+						pointerId: startPointerId,
 						handlers: {}
 					};
 					_.graph.data._connectionDrag = drag;
 
 					drag.handlers.onMove = (e) => {
 						if (!_.graph.data._connectionDrag?.active) return;
+						if (drag.pointerId != null && e.pointerId != null && e.pointerId !== drag.pointerId) return;
 
 						if (!drag.didMove && drag.startClient.x != null && drag.startClient.y != null) {
 							const dx = e.clientX - drag.startClient.x;
@@ -1189,6 +1222,7 @@ $(function () {
 
 					drag.handlers.onUp = (e) => {
 						if (!_.graph.data._connectionDrag?.active) return;
+						if (drag.pointerId != null && e.pointerId != null && e.pointerId !== drag.pointerId) return;
 
 						// If this was a simple click on a connected port (no drag), remove its connection(s).
 						if (drag.hasExistingConnection && !drag.didMove) {
@@ -1225,12 +1259,21 @@ $(function () {
 						_.graph.functions.finishConnection(toNodeId, toPortId);
 					};
 
+					drag.handlers.onCancel = (e) => {
+						if (!_.graph.data._connectionDrag?.active) return;
+						if (drag.pointerId != null && e?.pointerId != null && e.pointerId !== drag.pointerId) return;
+						_.graph.functions.cancelConnection();
+					};
+
 					drag.handlers.onKey = (e) => {
 						if (e.key === 'Escape') _.graph.functions.cancelConnection();
 					};
 
 					window.addEventListener('mousemove', drag.handlers.onMove, true);
 					window.addEventListener('mouseup', drag.handlers.onUp, true);
+					window.addEventListener('pointermove', drag.handlers.onMove, true);
+					window.addEventListener('pointerup', drag.handlers.onUp, true);
+					window.addEventListener('pointercancel', drag.handlers.onCancel, true);
 					window.addEventListener('keydown', drag.handlers.onKey, true);
 
 					// Initialize line immediately (only visible if tempPath is shown).
@@ -1350,6 +1393,9 @@ $(function () {
 					if (drag?.handlers) {
 						window.removeEventListener('mousemove', drag.handlers.onMove, true);
 						window.removeEventListener('mouseup', drag.handlers.onUp, true);
+						window.removeEventListener('pointermove', drag.handlers.onMove, true);
+						window.removeEventListener('pointerup', drag.handlers.onUp, true);
+						window.removeEventListener('pointercancel', drag.handlers.onCancel, true);
 						window.removeEventListener('keydown', drag.handlers.onKey, true);
 					}
 
@@ -1365,20 +1411,36 @@ $(function () {
 
 					_.graph.data._portConnectionBound = true;
 
-					// Start a wire drag from any port (existing or future).
+					const startFromPortEl = (portEl, e) => {
+						if (!portEl) return;
+						const nodeEl = portEl.closest('.chip');
+						if (!nodeEl?.id) return;
+						const portId = portEl.getAttribute('id');
+						if (!portId) return;
+						_.graph.functions.startConnection(nodeEl.id, portId, e);
+					};
+
+					// Pointer-first (mobile + modern desktop). Use capture so we win before node handlers.
+					canvasEl.addEventListener(
+						'pointerdown',
+						(e) => {
+							const portEl = e.target?.closest?.('.port');
+							if (!portEl) return;
+							if (e.pointerType === 'mouse' && e.button !== 0) return; // left mouse only
+							e.preventDefault();
+							e.stopPropagation();
+							startFromPortEl(portEl, e);
+						},
+						{ capture: true, passive: false }
+					);
+
+					// Fallback for older browsers: mouse.
 					$(canvasEl).on('mousedown.portConnect', '.port', function (e) {
+						if (window.PointerEvent) return;
 						if (e.which !== 1) return; // left button only
 						e.preventDefault();
 						e.stopPropagation();
-
-						const portEl = this;
-						const nodeEl = portEl.closest('.chip');
-						if (!nodeEl?.id) return;
-
-						const portId = portEl.getAttribute('id');
-						if (!portId) return;
-
-						_.graph.functions.startConnection(nodeEl.id, portId, e);
+						startFromPortEl(this, e);
 					});
 				}
 			},
@@ -1397,6 +1459,159 @@ $(function () {
 					});
 				},
 				interaction: {
+					touchPanAndPinchZoom: async () => {
+						const vpEl = _.graph.data.elements.graphCanvasViewport.element;
+						if (!vpEl) return;
+
+						// Prevent the browser from hijacking touch gestures (scroll/zoom).
+						vpEl.style.touchAction = 'none';
+						vpEl.style.webkitUserSelect = 'none';
+
+						const pointers = new Map(); // pointerId -> { x, y }
+						let pinch = null; // { startDist, startScale, world, rect }
+
+						const isInteractiveTarget = (t) => {
+							if (!t) return false;
+							return !!(t.closest?.('.chip') || t.closest?.('.port'));
+						};
+
+						const getTwoPointers = () => {
+							const arr = Array.from(pointers.values());
+							if (arr.length < 2) return null;
+							return [arr[0], arr[1]];
+						};
+
+						const dist = (a, b) => {
+							const dx = a.x - b.x;
+							const dy = a.y - b.y;
+							return Math.sqrt(dx * dx + dy * dy);
+						};
+
+						const midpoint = (a, b) => ({ x: (a.x + b.x) * 0.5, y: (a.y + b.y) * 0.5 });
+
+						const stopPan = () => {
+							_.graph.data.cameraState.dragging = false;
+							vpEl.classList.remove('grabbing');
+						};
+
+						vpEl.addEventListener(
+							'pointerdown',
+							(e) => {
+								// This handler is for touch/pen only.
+								if (e.pointerType === 'mouse') return;
+								if (isInteractiveTarget(e.target)) return;
+								e.preventDefault();
+
+								pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+								try { vpEl.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+
+								if (pointers.size === 1) {
+									// Start single-finger pan.
+									_.graph.data.cameraState.dragging = true;
+									_.graph.data.cameraState.lastX = e.clientX;
+									_.graph.data.cameraState.lastY = e.clientY;
+									vpEl.classList.add('grabbing');
+									pinch = null;
+								}
+
+								if (pointers.size === 2) {
+									// Start pinch zoom.
+									const two = getTwoPointers();
+									if (!two) return;
+									const [p0, p1] = two;
+									const rect = vpEl.getBoundingClientRect();
+									const mid = midpoint(p0, p1);
+									const mx = mid.x - rect.left;
+									const my = mid.y - rect.top;
+									const world = _.graph.functions.screenToWorld(mx, my);
+
+									pinch = {
+										startDist: Math.max(1, dist(p0, p1)),
+										startScale: _.graph.data.cameraState.scale,
+										world
+									};
+									vpEl.classList.add('grabbing');
+									_.graph.data.cameraState.dragging = false;
+								}
+							},
+							{ passive: false }
+						);
+
+						vpEl.addEventListener(
+							'pointermove',
+							(e) => {
+								if (e.pointerType === 'mouse') return;
+								if (!pointers.has(e.pointerId)) return;
+								e.preventDefault();
+
+								pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+								// Pinch takes precedence.
+								if (pointers.size >= 2 && pinch) {
+									const two = getTwoPointers();
+									if (!two) return;
+									const [p0, p1] = two;
+
+									const rect = vpEl.getBoundingClientRect();
+									const mid = midpoint(p0, p1);
+									const mx = mid.x - rect.left;
+									const my = mid.y - rect.top;
+
+									const zoomFactor = dist(p0, p1) / pinch.startDist;
+									const newScale = _.graph.functions.clamp(
+										pinch.startScale * zoomFactor,
+										_.graph.data.cameraState.minScale,
+										_.graph.data.cameraState.maxScale
+									);
+
+									_.graph.data.cameraState.scale = newScale;
+									// Keep the same world point under the midpoint.
+									_.graph.data.cameraState.tx = mx - pinch.world.x * newScale;
+									_.graph.data.cameraState.ty = my - pinch.world.y * newScale;
+
+									_.graph.functions.requestRender();
+									return;
+								}
+
+								// Single-finger pan.
+								if (_.graph.data.cameraState.dragging) {
+									const dx = e.clientX - _.graph.data.cameraState.lastX;
+									const dy = e.clientY - _.graph.data.cameraState.lastY;
+									_.graph.data.cameraState.lastX = e.clientX;
+									_.graph.data.cameraState.lastY = e.clientY;
+									_.graph.data.cameraState.tx += dx;
+									_.graph.data.cameraState.ty += dy;
+									_.graph.functions.requestRender();
+								}
+							},
+							{ passive: false }
+						);
+
+						const onPointerUpLike = (e) => {
+							if (e.pointerType === 'mouse') return;
+							if (!pointers.has(e.pointerId)) return;
+							pointers.delete(e.pointerId);
+
+							if (pointers.size === 0) {
+								pinch = null;
+								stopPan();
+								return;
+							}
+
+							// Transition from pinch to pan with the remaining finger.
+							if (pointers.size === 1) {
+								pinch = null;
+								const only = Array.from(pointers.values())[0];
+								_.graph.data.cameraState.dragging = true;
+								_.graph.data.cameraState.lastX = only.x;
+								_.graph.data.cameraState.lastY = only.y;
+								vpEl.classList.add('grabbing');
+							}
+						};
+
+						vpEl.addEventListener('pointerup', onPointerUpLike, { passive: true });
+						vpEl.addEventListener('pointercancel', onPointerUpLike, { passive: true });
+					},
 					middleMousePan: async () => {
 						const vpEl = _.graph.data.elements.graphCanvasViewport.element;
 						if (!vpEl) return;
@@ -1719,6 +1934,7 @@ $(function () {
 					};
 
 					nodeElement.on('mousedown', function (e) {
+						if (window.PointerEvent) return;
 						if (e.which !== 1) return; // Only left mouse button
 
 						// If the gesture started on a port, let the port connection system handle it.
@@ -1765,7 +1981,7 @@ $(function () {
 						dragNodes.forEach(el => el.appendTo(parent));
 
 						// Avoid stacking multiple window handlers
-						$(window).off('mousemove.nodeDrag mouseup.nodeDrag');
+						$(window).off('mousemove.nodeDrag mouseup.nodeDrag pointermove.nodeDrag pointerup.nodeDrag pointercancel.nodeDrag');
 
 						$(window).on('mousemove.nodeDrag', function (ev) {
 							if (!isDragging) return;
@@ -1789,8 +2005,70 @@ $(function () {
 							dragNodes = [];
 							grabOffsets.clear();
 
-							$(window).off('mousemove.nodeDrag mouseup.nodeDrag');
+							$(window).off('mousemove.nodeDrag mouseup.nodeDrag pointermove.nodeDrag pointerup.nodeDrag pointercancel.nodeDrag');
 						});
+					});
+
+					// Pointer-based dragging (touch + pen + mouse).
+					nodeElement.on('pointerdown', function (e) {
+						if (e.pointerType === 'mouse' && e.button !== 0) return;
+						// If the gesture started on a port, let the port connection system handle it.
+						const dragTarget = e.target;
+						if (dragTarget?.closest?.('.port')) return;
+
+						e.preventDefault();
+						isDragging = true;
+						const activePointerId = e.pointerId;
+						try { nodeElement[0].setPointerCapture(activePointerId); } catch { /* ignore */ }
+
+						const grabbedIsSelected = nodeElement.hasClass('selected');
+						if (grabbedIsSelected) {
+							dragNodes = _.graph.functions
+								.getSelectedNodes()
+								.map(n => n.element)
+								.filter(el => el && el.length > 0);
+							if (!dragNodes.some(el => el.is(nodeElement))) dragNodes.push(nodeElement);
+						} else {
+							dragNodes = [nodeElement];
+						}
+
+						const mouseWorld0 = getMouseWorld(e.clientX, e.clientY);
+						grabOffsets = new Map();
+						dragNodes.forEach(el => {
+							const left = parseFloat(el.css('left')) || 0;
+							const top = parseFloat(el.css('top')) || 0;
+							grabOffsets.set(el[0], {
+								dx: mouseWorld0.x - left,
+								dy: mouseWorld0.y - top
+							});
+							el.addClass('grabbing');
+						});
+
+						const parent = nodeElement.parent();
+						dragNodes.forEach(el => el.appendTo(parent));
+
+						$(window).off('pointermove.nodeDrag pointerup.nodeDrag pointercancel.nodeDrag');
+						$(window).on('pointermove.nodeDrag', function (ev) {
+							if (!isDragging) return;
+							if (ev.pointerId !== activePointerId) return;
+							const mouseWorld = getMouseWorld(ev.clientX, ev.clientY);
+							dragNodes.forEach(el => {
+								const off = grabOffsets.get(el[0]);
+								if (!off) return;
+								_.graph.node.setPosition(el, mouseWorld.x - off.dx, mouseWorld.y - off.dy);
+							});
+						});
+
+						const endDrag = (ev) => {
+							if (!isDragging) return;
+							if (ev && ev.pointerId != null && ev.pointerId !== activePointerId) return;
+							isDragging = false;
+							dragNodes.forEach(el => el.removeClass('grabbing'));
+							dragNodes = [];
+							grabOffsets.clear();
+							$(window).off('pointermove.nodeDrag pointerup.nodeDrag pointercancel.nodeDrag');
+						};
+						$(window).on('pointerup.nodeDrag pointercancel.nodeDrag', endDrag);
 					});
 				},
 				setPortsHoverHandler: async (node) => {
@@ -1822,6 +2100,7 @@ $(function () {
 					domEl.addEventListener(
 						'mousedown',
 						(e) => {
+							if (window.PointerEvent) return;
 							if (e.button !== 0) return; // left button only
 
 							// If the gesture started on a port, let the port connection system handle it.
@@ -1849,7 +2128,34 @@ $(function () {
 						true // capture
 					);
 
+					domEl.addEventListener(
+						'pointerdown',
+						(e) => {
+							if (e.pointerType === 'mouse' && e.button !== 0) return;
+							// If the gesture started on a port, let the port connection system handle it.
+							const selectTarget = e.target;
+							if (selectTarget?.closest?.('.port')) return;
+
+							const isMultiSelect = e.ctrlKey || e.metaKey;
+							const nodeData = _.graph.data.nodes.find(n => n.element && n.element.is(nodeElement));
+
+							if (!nodeData?.selected) {
+								preselectedOnDown = true;
+								if (!isMultiSelect) {
+									_.graph.data.nodes.forEach(n => {
+										if (n.element && !n.element.is(nodeElement)) _.graph.functions.deselectNode(n.element);
+									});
+								}
+								_.graph.functions.selectNode(nodeElement);
+							} else {
+								preselectedOnDown = false;
+							}
+						},
+						true
+					);
+
 					nodeElement.on('mousedown', function (e) {
+						if (window.PointerEvent) return;
 						if (e.which !== 1) return; // left mouse button only
 
 						// If the gesture started on a port, don't stop propagation; let the delegated port handler run.
@@ -1900,6 +2206,52 @@ $(function () {
 
 							preselectedOnDown = false;
 						});
+					});
+
+					nodeElement.on('pointerdown', function (e) {
+						if (e.pointerType === 'mouse' && e.button !== 0) return;
+						const selectTarget = e.target;
+						if (selectTarget?.closest?.('.port')) return;
+						e.stopPropagation();
+						e.preventDefault();
+
+						const isMultiSelect = e.ctrlKey || e.metaKey;
+						const startX = e.clientX;
+						const startY = e.clientY;
+						let moved = false;
+						const activePointerId = e.pointerId;
+
+						$(window).off('pointermove.nodeSelect pointerup.nodeSelect pointercancel.nodeSelect');
+						$(window).on('pointermove.nodeSelect', function (ev) {
+							if (ev.pointerId !== activePointerId) return;
+							if (Math.abs(ev.clientX - startX) > 3 || Math.abs(ev.clientY - startY) > 3) moved = true;
+						});
+
+						const endSelect = (ev) => {
+							if (ev && ev.pointerId != null && ev.pointerId !== activePointerId) return;
+							$(window).off('pointermove.nodeSelect pointerup.nodeSelect pointercancel.nodeSelect');
+							if (moved) {
+								preselectedOnDown = false;
+								return;
+							}
+
+							const nodeData = _.graph.data.nodes.find(n => n.element && n.element.is(nodeElement));
+							if (!isMultiSelect) {
+								_.graph.data.nodes.forEach(n => {
+									if (n.element && !n.element.is(nodeElement)) _.graph.functions.deselectNode(n.element);
+								});
+								_.graph.functions.selectNode(nodeElement);
+							} else {
+								if (!preselectedOnDown) {
+									if (nodeData?.selected) _.graph.functions.deselectNode(nodeElement);
+									else _.graph.functions.selectNode(nodeElement);
+								}
+							}
+
+							preselectedOnDown = false;
+						};
+
+						$(window).on('pointerup.nodeSelect pointercancel.nodeSelect', endSelect);
 					});
 				},
 				setPortConnectionHandler: async (node) => {
@@ -1953,6 +2305,21 @@ $(function () {
 					_.data.selectedChipData = selectedChipData;
 					$('#render').empty();
 					_.render.chip();
+				});
+			},
+			mobile: async () => {
+				if (!_.data.mobile.isMobile) return;
+
+				// Load nav bar for mobile
+				$.each(_.data.mobile.nav, function (key, navItem) {
+					const id = navItem.id;
+					const element = $('#' + id);
+					_.data.mobile.nav[key].element = element;
+					if (navItem.clickTrigger) {
+						element.on('click', function () {
+							$('body').trigger(navItem.clickTrigger);
+						});
+					}
 				});
 			}
 		},

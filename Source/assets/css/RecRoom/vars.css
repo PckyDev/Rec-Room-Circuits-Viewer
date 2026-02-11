@@ -1,3 +1,8 @@
+html.light, html.dark {
+  --rr-color-text-light: #eae8e4;
+  --rr-color-text-dark: #3a3a40;
+}
+
 html.light {
   --rr-color-orange: #ff6727;
   --rr-color-gradient-light: #d97028;

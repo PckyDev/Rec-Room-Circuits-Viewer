@@ -1,0 +1,19 @@
+@media (max-width: 576px) {
+  .palette:not(.open) {
+    display: none !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .palette.open {
+    height: calc(100vh - 4rem) !important;
+    width: calc(100% - 2px) !important;
+  }
+}
+
+@media (min-width: 577px) {
+  .mobile-nav {
+    display: none !important;
+  }
+}
+
