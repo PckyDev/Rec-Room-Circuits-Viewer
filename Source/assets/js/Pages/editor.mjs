@@ -492,9 +492,9 @@ $(function () {
 				},
 				_isExecPortEl: (portEl) => {
 					if (!portEl) return false;
-
-					const attr = (portEl.getAttribute && portEl.getAttribute('porttype')) || '';
-					if (String(attr).toLowerCase() === 'exec') return true;
+					const typeNameRaw = _.graph.functions._getPortTypeName(null, null, portEl);
+					const typeNorm = _.graph.functions._canonicalTypeName(typeNameRaw);
+					if (typeNorm === 'exec') return true;
 
 					const cls = portEl.classList;
 					if (cls && (cls.contains('p-exec') || cls.contains('exec'))) return true;
@@ -610,10 +610,13 @@ $(function () {
 					let s = String(typeParamString).trim();
 					// Common formats: "(float, int)", "float|int", "float, int"
 					s = s.replace(/[()\[\]{}]/g, '');
-					return s
-						.split(/[,|]/g)
-						.map(t => _.graph.functions._canonicalTypeName(t))
-						.filter(t => !!t);
+					const out = [];
+					for (const part of s.split(/[,|]/g)) {
+						const t = _.graph.functions._canonicalTypeName(part);
+						if (!t) continue;
+						if (!out.includes(t)) out.push(t);
+					}
+					return out;
 				},
 				_getPortMeta: (nodeId, portId) => {
 					if (!nodeId || !portId) return null;
@@ -638,34 +641,90 @@ $(function () {
 					const meta = _.graph.functions._getPortMeta(nodeId, portId);
 					const t0 = meta?.port?.type;
 					if (t0 != null && String(t0).trim() !== '') return String(t0);
-					const attr = (portEl?.getAttribute && portEl.getAttribute('porttype')) || null;
-					return attr;
+
+					// Try DOM attributes / dataset on the port element (or nearby wrappers).
+					const candidates = [];
+					const push = (el) => {
+						if (!el) return;
+						if (!candidates.includes(el)) candidates.push(el);
+					};
+					push(portEl);
+					// If we were passed a wrapper (e.g. .port-container), try to find the actual .port.
+					if (portEl && portEl !== document && portEl !== window) {
+						push(portEl.querySelector?.('.port'));
+						push(portEl.closest?.('.port'));
+						const pc = portEl.closest?.('.port-container');
+						push(pc);
+						push(pc?.querySelector?.('.port'));
+						push(portEl.parentElement);
+					}
+
+					const attrNames = ['porttype', 'portType', 'data-porttype', 'data-portType', 'type', 'data-type'];
+					for (const el of candidates) {
+						for (const name of attrNames) {
+							const v = (el?.getAttribute && el.getAttribute(name)) || null;
+							if (v != null && String(v).trim() !== '') return String(v);
+						}
+						const dv = el?.dataset?.porttype ?? el?.dataset?.portType ?? el?.dataset?.type;
+						if (dv != null && String(dv).trim() !== '') return String(dv);
+					}
+
+					// Fallback: infer from CSS classes used by the chip renderer.
+					for (const el of candidates) {
+						const cls = el?.classList;
+						if (!cls) continue;
+						for (const c of cls) {
+							if (typeof c === 'string' && c.startsWith('p-') && c.length > 2) {
+								return c.slice(2);
+							}
+						}
+					}
+
+					return null;
 				},
 				_getAllowedTypeSetForPort: (nodeId, portId, portEl) => {
 					const typeNameRaw = _.graph.functions._getPortTypeName(nodeId, portId, portEl);
 					const typeNorm = _.graph.functions._canonicalTypeName(typeNameRaw);
-					if (!typeNorm) return null;
+					if (!typeNorm) {
+						// Some ports (notably generic T ports in the current chip renderer) may expose
+						// a constraint list directly in the DOM, e.g. "(float, int)".
+						// Treat that as an allowed-type set.
+						const raw = String(typeNameRaw || '').trim();
+						const looksLikeList = raw.startsWith('(') || raw.includes(',') || raw.includes('|');
+						if (looksLikeList) {
+							const allowed = _.graph.functions._parseAllowedTypesFromTypeParam(raw);
+							// If the constraint itself includes "any", treat as a wildcard.
+							if (allowed.includes('any')) return { wildcard: true, set: null };
+							if (allowed.length > 0) return { wildcard: false, set: new Set(allowed) };
+						}
+						return null;
+					}
 
 					// Exec is handled as a concrete, single-type set.
 					if (typeNorm === 'exec') return { wildcard: false, set: new Set(['exec']) };
 
+					// "any" is always a true wildcard (exec is handled separately above).
+					if (typeNorm === 'any') return { wildcard: true, set: null };
+
 					const meta = _.graph.functions._getPortMeta(nodeId, portId);
 					const typeParams = Array.isArray(meta?.nodeDesc?.typeParams) ? meta.nodeDesc.typeParams : [];
 
-					// If this port is a generic type (e.g. "T" or "any"), constrain by its typeParam list.
+					// If this port is a generic type param (e.g. "T"), constrain by its typeParam list.
 					let param = typeParams.find(tp => _.graph.functions._canonicalTypeName(tp?.name) === typeNorm) || null;
-					if (!param && (typeNorm === 't' || typeNorm === 'any') && typeParams.length === 1) {
+					if (!param && typeNorm === 't' && typeParams.length === 1) {
 						param = typeParams[0];
 					}
 
 					if (param) {
 						const allowed = _.graph.functions._parseAllowedTypesFromTypeParam(param.type);
+						// A type-param constraint of "any" means unconstrained.
+						if (allowed.includes('any')) return { wildcard: true, set: null };
 						if (allowed.length === 0) return { wildcard: true, set: null };
 						return { wildcard: false, set: new Set(allowed) };
 					}
 
-					// Unconstrained "any" is a true wildcard.
-					if (typeNorm === 'any') return { wildcard: true, set: null };
+					// Unconstrained generic (e.g. "T" without typeParams) behaves like a wildcard.
+					if (typeNorm === 't') return { wildcard: true, set: null };
 
 					// Concrete type: must match exactly.
 					return { wildcard: false, set: new Set([typeNorm]) };
@@ -687,7 +746,7 @@ $(function () {
 					const meta = _.graph.functions._getPortMeta(nodeId, portId);
 					const typeParams = Array.isArray(meta?.nodeDesc?.typeParams) ? meta.nodeDesc.typeParams : [];
 					let param = typeParams.find(tp => _.graph.functions._canonicalTypeName(tp?.name) === typeNorm) || null;
-					if (!param && (typeNorm === 't' || typeNorm === 'any') && typeParams.length === 1) {
+					if (!param && typeNorm === 't' && typeParams.length === 1) {
 						param = typeParams[0];
 					}
 					return param;
@@ -695,7 +754,12 @@ $(function () {
 				_isColorAdaptivePort: (nodeId, portId, portEl) => {
 					const typeNameRaw = _.graph.functions._getPortTypeName(nodeId, portId, portEl);
 					const typeNorm = _.graph.functions._canonicalTypeName(typeNameRaw);
-					if (!typeNorm) return false;
+					if (!typeNorm) {
+						const raw = String(typeNameRaw || '').trim();
+						const looksLikeList = raw.startsWith('(') || raw.includes(',') || raw.includes('|');
+						if (looksLikeList) return true;
+						return false;
+					}
 					if (typeNorm === 'exec') return false;
 					if (typeNorm === 'any') return true;
 					// Generic ports like T (or any named type param) are also color-adaptive.
