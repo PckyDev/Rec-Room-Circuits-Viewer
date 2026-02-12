@@ -4,8 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>RR Circuits API</title>
+    <title>RR Circuits API &amp; Graph Editor</title>
+    <meta name="theme-color" content="#383b43">
+    <meta name="twitter:title" content="RR Circuits API &amp; Graph Editor">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/png" sizes="1000x1000" href="assets/img/Branding/Icon/Icon%201K%20Transparent.png">
+    <link rel="icon" type="image/png" sizes="1000x1000" href="assets/img/Branding/Icon/Icon%201K%20Transparent.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="1000x1000" href="assets/img/Branding/Icon/Icon%201K%20Transparent.png">
+    <link rel="icon" type="image/png" sizes="1000x1000" href="assets/img/Branding/Icon/Icon%201K%20Transparent.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="1000x1000" href="assets/img/Branding/Icon/Icon%201K%20Transparent.png">
+    <link rel="icon" type="image/png" sizes="1000x1000" href="assets/img/Branding/Icon/Icon%201K%20Transparent.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
     <link rel="stylesheet" href="assets/css/Roboto.css">
     <link rel="stylesheet" href="assets/css/bss-overrides.css">
     <link rel="stylesheet" href="assets/css/other.css">
@@ -28,8 +39,7 @@
             <div class="head">
                 <div class="rr-text-input"><input type="text" id="paletteSearchInput" placeholder="Search Palette...">
                     <div class="rr-input-btns">
-                        <div class="disabled rr-input-clear"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-64 0 512 512" width="1em" height="1em" fill="currentColor">
-                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+                        <div class="disabled rr-input-clear"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-64 0 512 512" width="1em" height="1em" fill="currentColor"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
                                 <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"></path>
                             </svg></div>
                     </div>
@@ -71,8 +81,7 @@
             </div>
             <div id="paletteResizeBar" class="resizeBar"></div>
         </div>
-        <div class="mobile-nav"><button id="paletteOpenMobile" class="rr-btn transparent no-border" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor">
-                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+        <div class="mobile-nav"><button id="paletteOpenMobile" class="rr-btn transparent no-border" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
                     <path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3H344c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-96a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 96a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"></path>
                 </svg><span>Palette</span></button></div>
         <div id="dragSelectionBox" class="drag-select"></div>
