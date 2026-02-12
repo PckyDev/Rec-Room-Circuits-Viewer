@@ -112,39 +112,131 @@ async function search(query, opt) {
 		jsonDataIsCombined = false;
 	}
 
-	let results = {};
-	
-	query = query.toLowerCase().replace(/\s/gm, '');
+	// Properties to search through for each chip/object:
+	// - key (This is the chip/object name without spaces)
+	// - chipName (The actual chip/object name with spaces, as it appears in the data)
+	// - paletteName (The chip/object name as it appears in the palette, which may differ from chipName for some chips/objects)
+	// - description (The chip/object description, which may contain the chip/object name or related keywords)
+
+	const results = {};
+
+	const qRaw = String(query ?? '').trim();
+	const normalizeKey = (s) => String(s ?? '').toLowerCase().replace(/\s+/g, '');
+	const normalizeText = (s) => String(s ?? '')
+		.toLowerCase()
+		.replace(/[_\-]+/g, ' ')
+		.replace(/[^a-z0-9]+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+	const tokenize = (s) => {
+		const t = normalizeText(s);
+		return t ? t.split(' ') : [];
+	};
+
+	const qKey = normalizeKey(qRaw);
+	const qText = normalizeText(qRaw);
+	const qTokens = tokenize(qRaw);
+	const isShort = qKey.length <= 2;
+	if (!qKey) return {};
+
+	const scoreCandidate = (q, candidate, weight) => {
+		if (!candidate) return 0;
+		const cText = normalizeText(candidate);
+		const cKey = normalizeKey(candidate);
+		if (!cText && !cKey) return 0;
+
+		// Exact matches should always win.
+		if (cKey === qKey) return weight + 100000;
+
+		const cTokens = tokenize(candidate);
+		const hasTokenExact = cTokens.includes(qText) || cTokens.includes(qKey);
+		const hasTokenPrefix = qTokens.length > 0
+			? qTokens.every(qt => cTokens.some(ct => ct.startsWith(qt)))
+			: cTokens.some(ct => ct.startsWith(qText));
+
+		let score = 0;
+
+		// For very short queries (like "if"), avoid substring matches inside other words.
+		if (isShort) {
+			if (hasTokenExact) score = Math.max(score, weight + 60000);
+			if (cTokens.some(t => t.startsWith(qKey))) score = Math.max(score, weight + 50000);
+			if (cText.startsWith(qText)) score = Math.max(score, weight + 45000);
+			return score;
+		}
+
+		if (hasTokenExact) score = Math.max(score, weight + 65000);
+		if (cText.startsWith(qText) || cKey.startsWith(qKey)) score = Math.max(score, weight + 55000);
+		if (hasTokenPrefix) score = Math.max(score, weight + 45000);
+		if (cText.includes(qText) || cKey.includes(qKey)) score = Math.max(score, weight + 35000);
+
+		// Light fuzzy boost: trigram overlap on the space-stripped forms.
+		const tri = (s) => {
+			const ss = String(s || '');
+			if (ss.length < 3) return new Set([ss]);
+			const set = new Set();
+			for (let i = 0; i <= ss.length - 3; i++) set.add(ss.slice(i, i + 3));
+			return set;
+		};
+		const a = tri(qKey);
+		const b = tri(cKey);
+		let inter = 0;
+		for (const x of a) if (b.has(x)) inter++;
+		const union = a.size + b.size - inter;
+		const jacc = union > 0 ? inter / union : 0;
+		if (jacc > 0) score += Math.floor(jacc * 5000);
+
+		return score;
+	};
+
+	const scoreChip = (chipName, chipData) => {
+		const name = chipData?.chipName || chipName;
+		const paletteName = chipData?.paletteName || '';
+		const description = chipData?.description || '';
+
+		// Search fields listed in your comment header (with different weights).
+		const byKey = scoreCandidate(qKey, chipName, 2000);
+		const byChipName = scoreCandidate(qKey, name, 3000);
+		const byPalette = scoreCandidate(qKey, paletteName, 1500);
+		const byDesc = scoreCandidate(qKey, description, 500);
+		return Math.max(byKey, byChipName, byPalette, byDesc);
+	};
 
 	if (jsonDataIsCombined) {
+		const matches = [];
 		$.each(jsonData, function(chipName, chipData) {
-			if (chipName.toLowerCase().replace(/\s/gm, '').match(new RegExp(`${query}`, 'gm'))) {
-				results[chipName] = chipData;
-			}
+			const score = scoreChip(chipName, chipData);
+			if (score > 0) matches.push({ chipName, chipData, score });
 		});
-	} else {
-		$.each(jsonData, function(key, value) {
-			$.each(value, function(chipName, chipData) {
-				if (chipName.toLowerCase().replace(/\s/gm, '').match(new RegExp(`${query}`, 'gm'))) {
-					if (options.combineResults) {
-						results[chipName] = chipData;
-						return;
-					}
-					results[key] = results[key] || {};
-					results[key][chipName] = chipData;
-				}
-			});
-		});
+		matches.sort((a, b) => (b.score - a.score) || a.chipName.localeCompare(b.chipName));
+		for (const m of matches) results[m.chipName] = m.chipData;
+		return results;
 	}
 
-	// Sort results alphabetically by chipName within each category (chips/objects) or overall if combined.
 	if (options.combineResults) {
-		results = Object.fromEntries(Object.entries(results).sort((a, b) => a[0].localeCompare(b[0])));
-	} else {
-		$.each(results, function(key, value) {
-			results[key] = Object.fromEntries(Object.entries(value).sort((a, b) => a[0].localeCompare(b[0])));
+		const matches = [];
+		$.each(jsonData, function(groupKey, value) {
+			$.each(value, function(chipName, chipData) {
+				const score = scoreChip(chipName, chipData);
+				if (score > 0) matches.push({ chipName, chipData, score });
+			});
 		});
+		matches.sort((a, b) => (b.score - a.score) || a.chipName.localeCompare(b.chipName));
+		for (const m of matches) results[m.chipName] = m.chipData;
+		return results;
 	}
+
+	// Grouped results: keep group key but order by relevance inside each group.
+	$.each(jsonData, function(groupKey, value) {
+		const matches = [];
+		$.each(value, function(chipName, chipData) {
+			const score = scoreChip(chipName, chipData);
+			if (score > 0) matches.push({ chipName, chipData, score });
+		});
+		if (matches.length === 0) return;
+		matches.sort((a, b) => (b.score - a.score) || a.chipName.localeCompare(b.chipName));
+		results[groupKey] = {};
+		for (const m of matches) results[groupKey][m.chipName] = m.chipData;
+	});
 
 	return results;
 }
