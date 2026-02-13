@@ -247,24 +247,241 @@ $(function () {
 							chipPaletteRender[0].dataset.rendered = 'true';
 						}
 
-						// Load click event for chips
-						chipElement.on('click', async function (e) {
-							// Prevent clicks on buttons inside the chip from triggering the node add.
-							if ($(e.target).closest('button').length > 0) {
-								// If the click was on the info button, open the info modal.
-								if ($(e.target).closest('button').hasClass(_.palette.data.chipOpenInfoModalBtnClass)) {
-									_.palette.functions.openInfoModal(chipData);
-								}
-								return;
-							}
-
-							// await chip.render($('#render'), chipData, { size: 1, log: true });
-							await _.graph.node.add(chipData);
-
-							if (_.data.mobile.isMobile) {
-								$('body').trigger('openPalette');
+						// Allow info button clicks without spawning / dragging.
+						chipElement.on('click', 'button', function (e) {
+							if ($(e.target).closest('button').hasClass(_.palette.data.chipOpenInfoModalBtnClass)) {
+								e.preventDefault();
+								e.stopPropagation();
+								_.palette.functions.openInfoModal(chipData);
 							}
 						});
+
+						// Click-to-spawn (center) + click-hold-drag to place.
+						(() => {
+							const DRAG_THRESHOLD_PX = 6;
+							let active = false;
+							let pointerId = null;
+							let startX = 0;
+							let startY = 0;
+							let didDrag = false;
+							let createdNodeId = null;
+							let createdNodeW = 0;
+							let createdNodeH = 0;
+							let createPromise = null;
+							let lastMoveX = 0;
+							let lastMoveY = 0;
+							let allowDrag = true;
+							let pressTimer = null;
+
+							const cleanup = () => {
+								active = false;
+								pointerId = null;
+								startX = 0;
+								startY = 0;
+								didDrag = false;
+								createdNodeId = null;
+								createdNodeW = 0;
+								createdNodeH = 0;
+								createPromise = null;
+								lastMoveX = 0;
+								lastMoveY = 0;
+								allowDrag = true;
+								if (pressTimer) {
+									try { clearTimeout(pressTimer); } catch { /* ignore */ }
+									pressTimer = null;
+								}
+							};
+
+							const _getClampedWorldFromClient = (clientX, clientY) => {
+								const vpEl = _.graph.data?.elements?.graphCanvasViewport?.element;
+								if (!vpEl) return null;
+								const rect = vpEl.getBoundingClientRect();
+								const cx = Math.max(rect.left, Math.min(rect.right, clientX));
+								const cy = Math.max(rect.top, Math.min(rect.bottom, clientY));
+								const sx = cx - rect.left;
+								const sy = cy - rect.top;
+								const world = _.graph.functions.screenToWorld(sx, sy);
+								return { world, rect, cx, cy };
+							};
+
+							const _moveCreatedNodeToClient = (clientX, clientY) => {
+								if (!createdNodeId) return;
+								const info = _getClampedWorldFromClient(clientX, clientY);
+								if (!info?.world) return;
+
+								// Keep the pointer on the *center* of the chip.
+								// Use live bounding box (screen px) divided by zoom to get world size.
+								let w = 0;
+								let h = 0;
+								try {
+									const nodeEl = _.graph.data?.nodes?.find?.(n => n?.id === createdNodeId)?.element?.[0];
+									const s = Number(_.graph?.data?.cameraState?.scale ?? 1) || 1;
+									if (nodeEl && typeof nodeEl.getBoundingClientRect === 'function') {
+										const r = nodeEl.getBoundingClientRect();
+										w = Number(r.width || 0) / s;
+										h = Number(r.height || 0) / s;
+									}
+								} catch { /* ignore */ }
+								if (!w || !h) {
+									w = Number(createdNodeW || 0);
+									h = Number(createdNodeH || 0);
+								}
+
+								const px = Number(info.world.x || 0) - (w ? w * 0.5 : 0);
+								const py = Number(info.world.y || 0) - (h ? h * 0.5 : 0);
+								_.graph.node.setPosition(createdNodeId, px, py);
+							};
+
+							const _ensureNodeCreated = async (clientX, clientY) => {
+								if (createdNodeId) return createdNodeId;
+								if (createPromise) return createPromise;
+
+								createPromise = (async () => {
+									const vpEl = _.graph.data?.elements?.graphCanvasViewport?.element;
+									if (!vpEl) return null;
+
+									// One undo step for the whole gesture: create node + drag placement.
+									_.graph.functions._recordHistory?.();
+									const created = await _.graph.node.add(chipData, { skipHistory: true });
+									if (!created?.id) return null;
+
+									createdNodeId = created.id;
+									createdNodeW = Number(created.element?.outerWidth?.() || 0);
+									createdNodeH = Number(created.element?.outerHeight?.() || 0);
+
+									// Make it the active selection.
+									for (const n of (_.graph.data.nodes || [])) {
+										if (n?.selected) _.graph.functions.deselectNode(n.element);
+									}
+									_.graph.functions.selectNode?.(createdNodeId);
+
+									// Place immediately at the palette click position projected onto the canvas.
+									_moveCreatedNodeToClient(clientX, clientY);
+									return createdNodeId;
+								})();
+
+								return createPromise;
+							};
+
+							const onPointerMove = (e) => {
+								if (!active) return;
+								if (pointerId !== null && e.pointerId !== pointerId) return;
+
+								lastMoveX = e.clientX;
+								lastMoveY = e.clientY;
+
+								const dx = e.clientX - startX;
+								const dy = e.clientY - startY;
+								const dist = Math.hypot(dx, dy);
+
+								// On touch, require a short long-press before we treat movement as a drag.
+								if (!allowDrag && dist >= DRAG_THRESHOLD_PX) {
+									// User likely intended to scroll; cancel gesture and don't spawn.
+									window.removeEventListener('pointermove', onPointerMove, true);
+									window.removeEventListener('pointerup', onPointerUp, true);
+									window.removeEventListener('pointercancel', onPointerCancel, true);
+									cleanup();
+									return;
+								}
+
+								if (!didDrag && dist >= DRAG_THRESHOLD_PX) {
+									didDrag = true;
+									// Capture the pointer once we know this is a drag so palette scrolling still works.
+									try { chipElement[0]?.setPointerCapture?.(e.pointerId); } catch { /* ignore */ }
+
+									// Create the real node on the canvas where the palette was clicked, then start dragging it.
+									_ensureNodeCreated(startX, startY).then(() => {
+										_moveCreatedNodeToClient(lastMoveX || startX, lastMoveY || startY);
+									});
+								}
+
+								if (didDrag) {
+									// Prevent page scrolling while dragging a chip.
+									e.preventDefault?.();
+									// Keep the created node under the pointer (projected into the canvas bounds).
+									if (createdNodeId) _moveCreatedNodeToClient(e.clientX, e.clientY);
+								}
+							};
+
+							const onPointerUp = async (e) => {
+								if (!active) return;
+								if (pointerId !== null && e.pointerId !== pointerId) return;
+
+								window.removeEventListener('pointermove', onPointerMove, true);
+								window.removeEventListener('pointerup', onPointerUp, true);
+								window.removeEventListener('pointercancel', onPointerCancel, true);
+
+								try { chipElement[0]?.releasePointerCapture?.(e.pointerId); } catch { /* ignore */ }
+
+								// If this was a click (no drag), keep existing behavior.
+								if (!didDrag) {
+									cleanup();
+									await _.graph.node.add(chipData);
+									if (_.data.mobile.isMobile) $('body').trigger('openPalette');
+									return;
+								}
+
+								// Drag-drop: node is created on drag start and follows the pointer.
+								if (createPromise) {
+									try { await createPromise; } catch { /* ignore */ }
+								}
+								if (createdNodeId) {
+									_moveCreatedNodeToClient(e.clientX, e.clientY);
+								}
+								cleanup();
+								if (_.data.mobile.isMobile) $('body').trigger('openPalette');
+							};
+
+							const onPointerCancel = async (e) => {
+								if (!active) return;
+								if (pointerId !== null && e.pointerId !== pointerId) return;
+								window.removeEventListener('pointermove', onPointerMove, true);
+								window.removeEventListener('pointerup', onPointerUp, true);
+								window.removeEventListener('pointercancel', onPointerCancel, true);
+								// If we created a node during this drag, remove it on cancel.
+								if (createPromise) {
+									try { await createPromise; } catch { /* ignore */ }
+								}
+								if (createdNodeId) {
+									try { _.graph.functions.deleteNode?.(createdNodeId); } catch { /* ignore */ }
+								}
+								cleanup();
+							};
+
+							chipElement.on('pointerdown', function (e) {
+								// Ignore if pointer events aren't supported.
+								if (!window.PointerEvent) return;
+								// Ignore non-primary buttons.
+								if (typeof e.button === 'number' && e.button !== 0) return;
+								// Ignore gestures that start on buttons.
+								if ($(e.target).closest('button').length > 0) return;
+
+								active = true;
+								pointerId = e.pointerId;
+								startX = e.clientX;
+								startY = e.clientY;
+
+								allowDrag = e.pointerType !== 'touch';
+								if (!allowDrag) {
+									pressTimer = setTimeout(() => {
+										allowDrag = true;
+									}, 160);
+								}
+
+								window.addEventListener('pointermove', onPointerMove, { capture: true, passive: false });
+								window.addEventListener('pointerup', onPointerUp, true);
+								window.addEventListener('pointercancel', onPointerCancel, true);
+							});
+
+							// Fallback for very old browsers: keep click-to-spawn.
+							if (!window.PointerEvent) {
+								chipElement.on('click', async function (e) {
+									if ($(e.target).closest('button').length > 0) return;
+									await _.graph.node.add(chipData);
+									if (_.data.mobile.isMobile) $('body').trigger('openPalette');
+								});
+							}
+						})();
 					}
 				},
 				searchInput: async () => {
