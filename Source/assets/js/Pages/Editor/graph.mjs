@@ -2656,7 +2656,7 @@ export const graph = {
                 if (key !== "c" && key !== "v" && key !== "x") return;
 
                 if (key === "c") {
-                    const did = store.graph.node._copySelectedNodesToClipboard();
+                    const did = graph.node._copySelectedNodesToClipboard();
                     if (!did) return;
                     e.preventDefault();
                     e.stopPropagation();
