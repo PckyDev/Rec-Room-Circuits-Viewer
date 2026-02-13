@@ -1,8 +1,8 @@
-import { ui } from '/Modules/RecRoom/ui.mjs';
-import { chip } from '/Modules/chip.mjs';
-import { palette } from '/Pages/Editor/palette.mjs';
-import { graph } from '/Pages/Editor/graph.mjs';
-import { store } from '/Pages/Editor/data.mjs';
+import { ui } from '../../Modules/RecRoom/ui.mjs';
+import { chip } from '../../Modules/chip.mjs';
+import { palette } from '../../Pages/Editor/palette.mjs';
+import { graph } from '../../Pages/Editor/graph.mjs';
+import { store } from '../../Pages/Editor/data.mjs';
 
 
 $(function () {

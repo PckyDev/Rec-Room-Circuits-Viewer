@@ -17,9 +17,9 @@
 // 					place in the graph.				  //
 ////////////////////////////////////////////////////////
 
-import { chip } from "/Modules/chip.mjs";
-import { graph } from "/Pages/Editor/graph.mjs";
-import { store } from "/Pages/Editor/data.mjs";
+import { chip } from "../../Modules/chip.mjs";
+import { graph } from "../../Pages/Editor/graph.mjs";
+import { store } from "../../Pages/Editor/data.mjs";
 
 export const palette = {
     init: async () => {

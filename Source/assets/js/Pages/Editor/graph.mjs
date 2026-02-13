@@ -17,8 +17,8 @@
 // 					layouts.						  //
 ////////////////////////////////////////////////////////
 
-import { chip } from "/Modules/chip.mjs";
-import { store } from "/Pages/Editor/data.mjs";
+import { chip } from "../../Modules/chip.mjs";
+import { store } from "../../Pages/Editor/data.mjs";
 
 export const graph = {
     init: async () => {
