@@ -1,11 +1,6 @@
 .palette {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 240px;
-  height: 100vh;
-  background-color: var(--rr-color-bg-primary);
-  box-shadow: 0 0 1rem 0 rgba(0,0,0,0.125);
+  width: 100%;
+  height: calc(100vh - 4rem);
   display: flex;
   flex-direction: column;
 }
@@ -86,18 +81,6 @@
   font-weight: 500;
   line-height: .9rem;
   color: var(--rr-color-text-secondary);
-}
-
-.palette .resizeBar {
-  position: absolute;
-  top: 0;
-  right: -.125rem;
-  height: 100%;
-  width: .25rem;
-}
-
-.palette .resizeBar:hover {
-  cursor: col-resize;
 }
 
 .palette .body .row .col > div {

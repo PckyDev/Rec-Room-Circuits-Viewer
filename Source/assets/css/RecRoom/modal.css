@@ -1,0 +1,41 @@
+.rr-modal {
+}
+
+body.modal-open > *:not(.rr-modal) {
+  filter: blur(.125rem);
+}
+
+.rr-modal .modal-content {
+  border-radius: calc(var(--rr-border-radius) * 3);
+  border: var(--rr-border-width) solid var(--rr-color-outline);
+}
+
+.rr-modal .modal-content .modal-header {
+  border-bottom: var(--rr-border-width) solid var(--rr-color-outline);
+  padding: .5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rr-modal .modal-content .modal-header .title {
+  font-family: 'Roboto';
+  line-height: 2rem;
+  font-size: 1.25rem;
+  margin: 0 0 0 .5rem;
+}
+
+.rr-modal .modal-content .modal-header .close {
+  font-family: 'Roboto';
+  font-size: 1.5rem;
+  aspect-ratio: 1/1;
+  padding: .5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rr-modal .modal-content .modal-body {
+  padding: 1rem;
+}
+

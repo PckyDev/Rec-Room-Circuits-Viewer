@@ -1,0 +1,24 @@
+@media (max-width: 576px) {
+  .sidebar-left.open {
+    width: 100vw !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar-left:not(.open) {
+    width: 100vw !important;
+    bottom: 0 !important;
+    height: 4rem !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar-left .resizeBar {
+    display: none;
+  }
+}
+

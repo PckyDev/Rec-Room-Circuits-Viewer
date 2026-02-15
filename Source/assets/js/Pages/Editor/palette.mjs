@@ -26,22 +26,12 @@ export const palette = {
         await palette.load.templates();
         await palette.load.chips();
         await palette.load.searchInput();
-        await palette.load.resizeBar();
-        await palette.load.openEvent();
+        // await palette.load.resizeBar();
+        // await palette.load.openEvent();
     },
     functions: {
         resize: async (newWidth) => {
-            const paletteWindow = $("#" + store.palette.paletteWindowId);
-            const minWidth = 240;
-            const maxWidth = $(window).width() - 2;
-
-            if (newWidth < minWidth) newWidth = minWidth;
-            if (newWidth > maxWidth) newWidth = maxWidth;
-            paletteWindow.css("width", newWidth + "px");
-
-            const chipsContainer = $(
-                "#" + store.palette.paletteChipsContainerId,
-            );
+            const chipsContainer = $("#" + store.palette.paletteChipsContainerId);
             const classTemplate = "row row-cols-{{chipsPerRow}}";
             $.each(store.palette.resizeCols, function (index, colData) {
                 if (newWidth >= colData.min && newWidth <= colData.max) {
@@ -71,7 +61,7 @@ export const palette = {
 
             // Set model content based on chipData
             modal
-                .find(".chip-name")
+                .find(".title")
                 .text(
                     chipData.paletteName || chipData.chipName || "Unknown Chip",
                 );
@@ -614,38 +604,38 @@ export const palette = {
                 palette.load.chips(query);
             });
         },
-        resizeBar: async () => {
-            const resizeBar = $("#" + store.palette.paletteResizeBarId);
-            let isResizing = false;
+        // resizeBar: async () => {
+        //     const resizeBar = $("#" + store.palette.paletteResizeBarId);
+        //     let isResizing = false;
 
-            resizeBar.on("mousedown", function (e) {
-                e.preventDefault();
-                isResizing = true;
-            });
+        //     resizeBar.on("mousedown", function (e) {
+        //         e.preventDefault();
+        //         isResizing = true;
+        //     });
 
-            $(document).on("mousemove", function (e) {
-                if (!isResizing) return;
-                if (store.editor.mobile.isMobile) return; // Disable resizing on mobile for now
-                const newWidth = e.clientX;
-                palette.functions.resize(newWidth);
-            });
+        //     $(document).on("mousemove", function (e) {
+        //         if (!isResizing) return;
+        //         if (store.editor.mobile.isMobile) return; // Disable resizing on mobile for now
+        //         const newWidth = e.clientX;
+        //         palette.functions.resize(newWidth);
+        //     });
 
-            $(document).on("mouseup", function () {
-                if (isResizing) {
-                    isResizing = false;
-                }
-            });
-        },
-        openEvent: async () => {
-            $("body").on("openPalette", function () {
-                const paletteWindow = $("#" + store.palette.paletteWindowId);
-                if (paletteWindow.hasClass("open")) {
-                    paletteWindow.removeClass("open");
-                } else {
-                    paletteWindow.addClass("open");
-                }
-                palette.functions.resize(paletteWindow.width());
-            });
-        },
+        //     $(document).on("mouseup", function () {
+        //         if (isResizing) {
+        //             isResizing = false;
+        //         }
+        //     });
+        // },
+        // openEvent: async () => {
+        //     $("body").on("openPalette", function () {
+        //         const paletteWindow = $("#" + store.palette.paletteWindowId);
+        //         if (paletteWindow.hasClass("open")) {
+        //             paletteWindow.removeClass("open");
+        //         } else {
+        //             paletteWindow.addClass("open");
+        //         }
+        //         palette.functions.resize(paletteWindow.width());
+        //     });
+        // },
     },
 };

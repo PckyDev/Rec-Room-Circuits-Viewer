@@ -22,17 +22,35 @@ export const store = {
 		mobile: {
 			breakpoint: 576,
 			isMobile: $(window).width() < 576,
-			nav: {
-				paletteOpenMobileBtn: {
-					id: 'paletteOpenMobile',
-					element: null,
-					clickTrigger: 'openPalette'
-				}
-			}
 		},
 		renderElement: null,
 		selectedChipData: null,
 		chipsJSON: {}
+	},
+	leftNav: {
+		leftNavWindowId: "sideBarLeftWindow",
+		leftNavResizeBarId: "sideBarLeftResizeBar",
+		currentOpenWindow: 'palette',
+		windows: {
+			palette: {
+				id: "paletteWindow",
+			},
+			account: {
+				id: "accountWindow",
+			},
+		},
+		nav: {
+				accountWindowOpenBtn: {
+					id: 'accountWindowOpen',
+					element: null,
+					windowToOpen: 'account',
+				},
+				paletteWindowOpenBtn: {
+					id: 'paletteWindowOpen',
+					element: null,
+					windowToOpen: 'palette',
+				},
+			}
 	},
 	palette: {
 		chipsJSON: null,
@@ -76,7 +94,6 @@ export const store = {
         chipPaletteRenderId: "chipPaletteRender",
         searchInputId: "paletteSearchInput",
         paletteWindowId: "paletteWindow",
-        paletteResizeBarId: "paletteResizeBar",
         paletteInfoModalId: "paletteInfoModal",
         chipOpenInfoModalBtnClass: "openInfoModal",
     },
@@ -151,5 +168,5 @@ export const store = {
         //     to: { nodeId: 'node-2', portId: 'port-2' },
         //     element: jQueryElement
         // }
-    },
+    }
 };

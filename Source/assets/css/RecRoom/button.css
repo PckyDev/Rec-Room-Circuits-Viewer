@@ -19,6 +19,10 @@
   overflow: hidden;
   position: relative;
   transition: transform .2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .rr-btn::before {

@@ -1,0 +1,93 @@
+/* NOT LOGGED IN */
+
+.account .not-logged-in {
+  width: 100%;
+  height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.account .not-logged-in p {
+  font-family: 'Roboto';
+  font-weight: 500;
+  text-align: center;
+  font-size: .9rem;
+  margin: 0;
+}
+
+.account .not-logged-in > svg {
+  font-size: 2.5rem;
+}
+
+/* LOGGED IN */
+
+.account .logged-in {
+  width: 100%;
+  height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+
+.account .logged-in .head {
+  background-color: var(--rr-color-bg-tertiary);
+  border-bottom: var(--rr-border-width) solid var(--rr-color-outline);
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.account .logged-in .head .profile-image {
+  height: 100%;
+  aspect-ratio: 1/1;
+  margin-right: .5rem;
+  border: var(--rr-border-width) solid var(--rr-color-outline);
+  border-radius: calc(var(--rr-border-radius) * 2);
+  background-size: cover;
+  background-position: center;
+}
+
+.account .logged-in .head .profile-name {
+  font-family: 'Roboto';
+  margin: 0;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 500;
+  padding-top: .7rem;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: start;
+}
+
+.account .logged-in .head .rr-btn {
+  aspect-ratio: 1/1 !important;
+  font-size: 1.5rem;
+  padding: .65rem;
+  margin-top: .35rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* BODY */
+
+.account .logged-in .body {
+  height: 100%;
+  padding: 0 .5rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.account .logged-in .body::-webkit-scrollbar {
+  display: none;
+}
+

@@ -1,0 +1,25 @@
+.sidebar-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 240px;
+  height: 100vh;
+  background-color: var(--rr-color-bg-primary);
+  box-shadow: 0 0 1rem 0 rgba(0,0,0,0.125);
+  overflow: hidden;
+}
+
+.sidebar-left .resizeBar:hover {
+  cursor: col-resize;
+}
+
+.sidebar-left .resizeBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: .25rem;
+  z-index: 99999;
+  border-right: var(--rr-border-width) solid var(--rr-color-outline);
+}
+
